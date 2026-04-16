@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0f172a;
+            color: white;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .logout {
+            background: red;
+            color: white;
+        }
+
+        .delete {
+            background: crimson;
+            color: white;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .active {
+            color: #4ade80;
+        }
+
+        .inactive {
+            color: #f87171;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>🛡 Admin Dashboard</h2>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <h3>👥 All Users</h3>
+    <div id="usersList"></div>
+
+    <h3>🚗 Drivers</h3>
+    <div id="driversList"></div>
+
+    <script>
+
+        /* =========================
+           ✅ ADMIN AUTH CHECK
+        ========================= */
+        const loggedUser = JSON.parse(localStorage.getItem("user"));
+
+        if (!loggedUser || loggedUser.type !== "admin") {
+            alert("Access Denied! Admin only.");
+            window.location.href = "signin.html";
+        }
+
+        /* =========================
+           ✅ LOGOUT
+        ========================= */
+        function logout() {
+            localStorage.removeItem("user");
+            window.location.href = "signin.html";
+        }
+
+        /* =========================
+           ✅ LOAD ALL USERS
+        ========================= */
+        function loadUsers() {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            let html = "";
+
+            users.forEach((u, index) => {
+                html += `
+        <div class="card">
+            <b>${u.name}</b><br>
+            Email: ${u.email}<br>
+            Type: ${u.type}<br>
+            Status: <span class="${u.isActive ? 'active' : 'inactive'}">
+                ${u.isActive ? 'Active' : 'Inactive'}
+            </span><br>
+
+            <button class="delete" onclick="deleteUser(${index})">Delete</button>
+        </div>
+        `;
+            });
+
+            document.getElementById("usersList").innerHTML = html;
+        }
+
+        /* =========================
+           ✅ LOAD DRIVERS ONLY
+        ========================= */
+        function loadDrivers() {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            let drivers = users.filter(u => u.type === "driver");
+
+            let html = "";
+
+            drivers.forEach((d, index) => {
+                html += `
+        <div class="card">
+            <b>${d.name}</b><br>
+            Email: ${d.email}<br>
+            Vehicle: ${d.vehicle || "N/A"}<br>
+            Price: ₹${d.price || 0}/hr<br>
+            Experience: ${d.experience || "N/A"}<br>
+            Status: <span class="${d.isActive ? 'active' : 'inactive'}">
+                ${d.isActive ? 'Active' : 'Inactive'}
+            </span><br>
+
+            <button class="delete" onclick="deleteDriver('${d.email}')">Delete</button>
+        </div>
+        `;
+            });
+
+            document.getElementById("driversList").innerHTML = html;
+        }
+
+        /* =========================
+           ✅ DELETE USER
+        ========================= */
+        function deleteUser(index) {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            if (confirm("Delete this user?")) {
+                users.splice(index, 1);
+                localStorage.setItem("users", JSON.stringify(users));
+                loadUsers();
+                loadDrivers();
+            }
+        }
+
+        /* =========================
+           ✅ DELETE DRIVER
+        ========================= */
+        function deleteDriver(email) {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            users = users.filter(u => u.email !== email);
+
+            localStorage.setItem("users", JSON.stringify(users));
+
+            /* also remove from registeredDrivers */
+            let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+            drivers = drivers.filter(d => d.email !== email);
+            localStorage.setItem("registeredDrivers", JSON.stringify(drivers));
+
+            loadUsers();
+            loadDrivers();
+        }
+
+        /* =========================
+           ✅ INIT LOAD
+        ========================= */
+        loadUsers();
+        loadDrivers();
+
+    </script>
+
+</body>
+
+</html>

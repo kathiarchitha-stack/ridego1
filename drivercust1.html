@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join As</title>
+<script>
+
+let loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+if(!loggedUser){
+
+alert("Please login first");
+
+window.location.href = "login.html";
+
+}
+
+</script>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f6f8;
+}
+
+/* Header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    background:white;
+    box-shadow:0 2px 5px rgba(0,0,0,0.05);
+}
+
+.header-btn{
+    background:#f1f1f1;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.header-center{
+    background:#17a673;
+    color:white;
+    padding:8px 12px;
+    border-radius:50%;
+    font-size:18px;
+}
+
+/* Main Container */
+.container{
+    max-width:500px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+/* Icon */
+.icon-box{
+    width:80px;
+    height:80px;
+    background:#e6f8f2;
+    color:#17a673;
+    font-size:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    margin:0 auto 20px;
+}
+
+/* Title */
+.container h2{
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:30px;
+    font-size:14px;
+}
+
+/* Buttons */
+.join-btn{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(to right,#1abc9c,#17a673);
+    transition:0.3s;
+}
+
+.join-btn:hover{
+    opacity:0.9;
+}
+
+.secondary-btn{
+    background:#e5e7eb;
+    color:black;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+<button class="header-btn" onclick="window.location.href='signin.html'">←</button>
+    <div class="header-center">🚗</div>
+    <button class="header-btn">👤</button>
+</div>
+
+<!-- Main Card -->
+<div class="container">
+
+    <div class="icon-box">👥</div>
+
+    <h2>Join Our Platform</h2>
+    <p class="subtitle">Choose how you would like to continue</p>
+
+    <button class="join-btn" onclick="window.location.href='customerssearch.html'">
+        🚘 Join as Driver
+    </button>
+
+    <button class="join-btn" onclick="window.location.href='driversearch.html'">
+        🧍 Join as Customer
+    </button>
+
+
+
+</div>
+
+</body>
+</html>

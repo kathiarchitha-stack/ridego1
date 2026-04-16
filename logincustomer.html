@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join as Customer - Drivers Connect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      background-size: 200% 200%;
+      animation: bgPan 10s ease infinite;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes bgPan {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .header {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .center-logo {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+
+    .profile-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
+
+    .profile-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .title-text {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .title-text h1 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .title-text p {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(30, 41, 59, 0.75);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 500;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 7px;
+      background: rgba(15, 23, 42, 0.55);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    input::placeholder {
+      color: #475569;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      margin-top: 28px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.5);
+    }
+
+    .signin-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .signin-link a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .signin-link a:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-top: 14px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='drivercustomer.html'">← Back</button>
+    <div class="center-logo">🚗</div>
+    <button class="profile-btn" onclick="window.location.href='profile.html'">👤</button>
+  </div>
+
+  <div class="container">
+    <div class="title-text">
+      <h1>Join as a Customer</h1>
+      <p>Create your account to book verified drivers!</p>
+    </div>
+
+    <div class="card">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="e.g. Arjun Reddy">
+
+      <label>Phone Number</label>
+      <input type="tel" id="phone" placeholder="+91 9000000000">
+
+      <label>City</label>
+      <input type="text" id="city" placeholder="e.g. Hyderabad">
+
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="you@example.com">
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Create a strong password">
+
+      <div class="error" id="errorMsg"></div>
+
+      <button class="btn" onclick="registerCustomer()">Sign Up & Continue →</button>
+
+      <div class="signin-link">
+        Already have an account? <a href="signin.html">Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function registerCustomer() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorEl = document.getElementById("errorMsg");
+
+      errorEl.style.display = "none";
+
+      if (!name || !phone || !city || !email || !password) {
+        errorEl.innerText = "⚠ Please fill out all fields.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      if (password.length < 6) {
+        errorEl.innerText = "⚠ Password must be at least 6 characters.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      /* ---- Save to localStorage backend ---- */
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      if (users.some(u => u.email === email)) {
+        errorEl.innerText = "⚠ This email is already registered! Please Sign In.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      const joinDate = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long" });
+
+      const newUser = {
+        name, phone, city, email, password,
+        type: "customer",
+        joinDate,
+        isActive: true
+      };
+
+      users.push(newUser);
+      localStorage.setItem("users", JSON.stringify(users));
+
+      /* Pre-set loggedUser so they go straight to driversearch after signin */
+      localStorage.setItem("pendingLogin", JSON.stringify(newUser));
+
+      alert("✅ Registration Successful! Please Sign In to continue.");
+      window.location.href = "signin.html";
+    }
+  </script>
+</body>
+
+</html>

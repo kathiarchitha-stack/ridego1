@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help & Support - Drivers Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 200% 200%;
+    animation: bgPan 10s ease infinite;
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+@keyframes bgPan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.header {
+    background: rgba(15,23,42,0.75);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.back-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.2); }
+
+.logo {
+    width: 45px; height: 45px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 15px rgba(56,189,248,0.4);
+}
+
+.profile-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.profile-btn:hover { background: rgba(255,255,255,0.2); }
+
+.container { width: 90%; max-width: 650px; margin: 35px auto 60px; }
+
+.page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.page-sub   { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
+
+/* Submit form */
+.form-card {
+    background: rgba(30,41,59,0.75);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.form-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: #38bdf8; }
+
+label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 7px; margin-top: 16px; font-weight: 500; }
+
+select, textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(15,23,42,0.55);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s;
+    outline: none;
+}
+select:focus, textarea:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.2); }
+select option { background: #1e293b; }
+textarea { resize: vertical; min-height: 110px; }
+
+.submit-btn {
+    width: 100%; padding: 15px; margin-top: 22px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border: none; border-radius: 14px;
+    color: white; font-size: 16px; font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(56,189,248,0.3);
+    transition: all 0.3s;
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(56,189,248,0.5); }
+
+/* My tickets */
+.section-title { font-size: 20px; font-weight: 700; margin-bottom: 18px; }
+
+.ticket {
+    background: rgba(30,41,59,0.75);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap; gap: 8px;
+}
+
+.ticket-cat {
+    background: rgba(56,189,248,0.12);
+    border: 1px solid rgba(56,189,248,0.25);
+    color: #38bdf8;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 12px; font-weight: 600;
+}
+
+.ticket-date { font-size: 12px; color: #64748b; }
+
+.ticket-msg {
+    font-size: 14px; color: #cbd5e1;
+    background: rgba(15,23,42,0.4);
+    padding: 14px; border-radius: 12px;
+    line-height: 1.6; margin-bottom: 12px;
+}
+
+.ticket-status { font-size: 13px; }
+
+.admin-reply {
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px; color: #94a3b8;
+    margin-top: 10px;
+}
+.admin-reply strong { color: #38bdf8; }
+
+.empty-box {
+    text-align: center;
+    padding: 40px 20px;
+    color: #64748b;
+}
+
+.success-toast {
+    display: none;
+    background: rgba(34,197,94,0.15);
+    border: 1px solid rgba(34,197,94,0.3);
+    color: #4ade80;
+    padding: 14px 18px;
+    border-radius: 14px;
+    margin-top: 16px;
+    font-size: 14px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="logo">🚗</div>
+    <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
+</div>
+
+<div class="container">
+    <div class="page-title">💬 Help & Support</div>
+    <p class="page-sub">Have a question or issue? Submit a ticket and our admin team will respond.</p>
+
+    <!-- Submit Ticket -->
+    <div class="form-card">
+        <h3>📝 Submit a Support Ticket</h3>
+
+        <label>Category</label>
+        <select id="category">
+            <option value="General Question">General Question</option>
+            <option value="Payment Issue">Payment Issue</option>
+            <option value="Driver Complaint">Driver Complaint</option>
+            <option value="Booking Problem">Booking Problem</option>
+            <option value="Account Issue">Account Issue</option>
+            <option value="Technical Issue">Technical Issue</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label>Your Message / Question</label>
+        <textarea id="message" placeholder="Describe your issue or question in detail..."></textarea>
+
+        <div class="success-toast" id="successToast">✅ Ticket submitted successfully! Admin will respond soon.</div>
+
+        <button class="submit-btn" onclick="submitTicket()">📤 Submit Ticket</button>
+    </div>
+
+    <!-- My Previous Tickets -->
+    <div class="section-title">📋 My Previous Tickets</div>
+    <div id="myTickets"></div>
+</div>
+
+<script>
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+function goBack() {
+    if (!loggedUser) { window.location.href = "signin.html"; return; }
+    if (loggedUser.type === "driver")  window.location.href = "login1.html";
+    else window.location.href = "driversearch.html";
+}
+
+function submitTicket() {
+    if (!loggedUser) {
+        alert("Please sign in first.");
+        window.location.href = "signin.html";
+        return;
+    }
+
+    const category = document.getElementById("category").value;
+    const message  = document.getElementById("message").value.trim();
+
+    if (!message) {
+        alert("⚠ Please describe your issue.");
+        return;
+    }
+
+    let tickets = JSON.parse(localStorage.getItem("supportTickets")) || [];
+
+    const ticket = {
+        userName: loggedUser.name,
+        userType: loggedUser.type,
+        email:    loggedUser.email,
+        category,
+        message,
+        date:     new Date().toLocaleString("en-IN"),
+        resolved: false,
+        adminReply: ""
+    };
+
+    tickets.push(ticket);
+    localStorage.setItem("supportTickets", JSON.stringify(tickets));
+
+    document.getElementById("message").value = "";
+    document.getElementById("successToast").style.display = "block";
+    setTimeout(() => document.getElementById("successToast").style.display = "none", 4000);
+
+    renderMyTickets();
+}
+
+function renderMyTickets() {
+    const el = document.getElementById("myTickets");
+    if (!loggedUser) { el.innerHTML = ""; return; }
+
+    let tickets = JSON.parse(localStorage.getItem("supportTickets")) || [];
+    let mine    = tickets.filter(t => t.email === loggedUser.email).reverse();
+
+    if (mine.length === 0) {
+        el.innerHTML = `<div class="empty-box">No tickets submitted yet.</div>`;
+        return;
+    }
+
+    el.innerHTML = mine.map(t => `
+    <div class="ticket">
+        <div class="ticket-header">
+            <span class="ticket-cat">${t.category}</span>
+            <span class="ticket-date">📅 ${t.date}</span>
+        </div>
+        <div class="ticket-msg">${t.message}</div>
+        <div class="ticket-status">
+            ${t.resolved
+                ? '✅ <span style="color:#4ade80;font-weight:600;">Resolved</span>'
+                : '⏳ <span style="color:#fbbf24;font-weight:600;">Pending Admin Reply</span>'}
+        </div>
+        ${t.adminReply ? `<div class="admin-reply"><strong>Admin Reply:</strong> ${t.adminReply}</div>` : ''}
+    </div>`).join("");
+}
+
+renderMyTickets();
+</script>
+
+</body>
+</html>

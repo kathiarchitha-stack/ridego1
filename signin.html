@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Drivers Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            background-size: 200% 200%;
+            animation: bgPan 10s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        @keyframes bgPan {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .login-box {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(20px);
+            width: 420px;
+            padding: 45px 40px;
+            border-radius: 28px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 15px;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        .logo h2 {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 17px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(15, 23, 42, 0.6);
+            color: white;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35);
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(56, 189, 248, 0.5);
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 14px;
+            display: none;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .links a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .welcome-msg {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+            font-size: 14px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 14px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+        <div class="logo">
+            <div class="logo-icon">🚗</div>
+            <h2>Drivers Connect</h2>
+            <p>Sign in to your account</p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <span class="icon">📧</span>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <span class="icon">🔒</span>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+
+        <button class="btn" onclick="login()">Sign In →</button>
+
+        <div class="error" id="error-msg"></div>
+        <div class="welcome-msg" id="welcome-msg"></div>
+
+        <div class="links">
+            New user? <a href="drivercustomer.html">Create Account</a>
+            &nbsp;|&nbsp;
+            <a href="landing.html">← Home</a>
+        </div>
+    </div>
+
+    <script>
+        /* ===== ADMIN CREDENTIALS ===== */
+        const ADMIN_EMAIL = "admin@gmail.com";
+        const ADMIN_PASS = "Admin@123";
+
+        /* ===== SEED DEFAULT USERS if none exist ===== */
+        function ensureDefaultUsers() {
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            if (users.length === 0) {
+                users = [
+                    { email: "user@gmail.com", password: "123456", name: "Customer User", type: "customer", phone: "+91 9999999999", city: "Hyderabad", joinDate: "January 2026" },
+                    {
+                        email: "driver@gmail.com", password: "123456", name: "Driver Ramesh", type: "driver", phone: "+91 8888888888", city: "Hyderabad", joinDate: "January 2026",
+                        experience: "5 yrs", price: 200, vehicle: "Toyota Innova", isActive: true, isVerified: true, rating: "4.9", image: "https://randomuser.me/api/portraits/men/32.jpg"
+                    }
+                ];
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+        }
+        ensureDefaultUsers();
+
+        function login() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorEl = document.getElementById("error-msg");
+            const welcomeEl = document.getElementById("welcome-msg");
+
+            errorEl.style.display = "none";
+            welcomeEl.style.display = "none";
+
+            if (!email || !password) {
+                errorEl.innerText = "Please enter both email and password.";
+                errorEl.style.display = "block";
+                return;
+            }
+
+            /* ---- ADMIN CHECK ---- */
+           if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASS){
+                localStorage.setItem("user", JSON.stringify({ name: "Admin", email: ADMIN_EMAIL, type: "admin" }));
+                welcomeEl.innerText = "✅ Welcome Admin! Redirecting...";
+                welcomeEl.style.display = "block";
+                setTimeout(() => window.location.href = "admin.html", 1200);
+                return;
+            }
+
+            /* ---- NORMAL USER CHECK ---- */
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem("user", JSON.stringify(user));
+
+                /* If driver → mark as active */
+                if (user.type === "driver") {
+                    let allUsers = JSON.parse(localStorage.getItem("users")) || [];
+                    let idx = allUsers.findIndex(u => u.email === email);
+                    if (idx !== -1) {
+                        allUsers[idx].isActive = true;
+                        localStorage.setItem("users", JSON.stringify(allUsers));
+                    }
+                    /* Also update registeredDrivers active status */
+                    let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+                    let dIdx = drivers.findIndex(d => d.email === email);
+                    if (dIdx !== -1) {
+                        drivers[dIdx].isActive = true;
+                        localStorage.setItem("registeredDrivers", JSON.stringify(drivers));
+                    }
+                }
+
+                welcomeEl.innerText = "✅ Welcome back, " + user.name + "! Redirecting...";
+                welcomeEl.style.display = "block";
+
+                setTimeout(() => {
+                    if (user.type === "driver") {
+                        window.location.href = "customerssearch.html";
+                    } else {
+                        window.location.href = "driversearch.html";
+                    }
+                }, 1200);
+
+            } else {
+                errorEl.innerText = "❌ Invalid Email or Password. Not registered? Create an account.";
+                errorEl.style.display = "block";
+            }
+        }
+
+        /* Allow Enter key */
+        document.addEventListener("keydown", e => { if (e.key === "Enter") login(); });
+    </script>
+
+</body>
+
+</html>

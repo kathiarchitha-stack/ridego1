@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Successful - Drivers Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 200% 200%;
+    animation: bgPan 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+}
+
+@keyframes bgPan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+    background: rgba(30,41,59,0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    width: 100%; max-width: 430px;
+    text-align: center;
+    padding: 45px 35px;
+    border-radius: 28px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.success-img-wrapper {
+    width: 110px; height: 110px;
+    background: linear-gradient(135deg, #22c55e, #10b981);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 22px;
+    font-size: 55px;
+    box-shadow: 0 0 40px rgba(34,197,94,0.35);
+    animation: scaleUp 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+@keyframes scaleUp {
+    0%   { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+
+h2 { color: #4ade80; margin-bottom: 10px; font-size: 26px; font-weight: 700; }
+.subtitle { color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 25px; }
+
+/* Transaction ID Box */
+.txn-box {
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+}
+.txn-label { font-size: 12px; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.txn-id    { font-size: 18px; font-weight: 700; color: #38bdf8; letter-spacing: 1.5px; }
+.txn-amount { font-size: 13px; color: #4ade80; margin-top: 5px; font-weight: 600; }
+.txn-driver { font-size: 13px; color: #94a3b8; margin-top: 3px; }
+
+/* Details row */
+.detail-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 14px;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-row .lbl { color: #64748b; }
+.detail-row .val { color: #f1f5f9; font-weight: 500; }
+
+.details-section {
+    background: rgba(15,23,42,0.4);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.booking-btn {
+    margin-top: 5px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(56,189,248,0.3);
+    transition: all 0.3s;
+}
+.booking-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(56,189,248,0.5); }
+
+.view-bookings-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.view-bookings-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="success-img-wrapper">✔</div>
+
+    <h2>Payment Successful!</h2>
+    <p class="subtitle">Your ride has been confirmed. Have a safe and comfortable journey!</p>
+
+    <!-- Transaction ID -->
+    <div class="txn-box">
+        <div class="txn-label">Transaction ID</div>
+        <div class="txn-id" id="txnIdDisplay">TXN-XXXX-XXXXXXXX</div>
+        <div class="txn-amount" id="txnAmount">₹ 0 Paid</div>
+        <div class="txn-driver" id="txnDriver"></div>
+    </div>
+
+    <!-- Booking summary mini -->
+    <div class="details-section">
+        <div class="detail-row"><span class="lbl">Date</span><span class="val" id="txnDate">-</span></div>
+        <div class="detail-row"><span class="lbl">Time</span><span class="val" id="txnTime">-</span></div>
+        <div class="detail-row"><span class="lbl">Status</span><span class="val" style="color:#4ade80;">✅ Paid</span></div>
+    </div>
+
+    <button class="booking-btn" onclick="window.location.href='driversearch.html'">🏠 Book Another Ride</button>
+    <button class="view-bookings-btn" onclick="window.location.href='mybooking.html'">📋 View My Bookings</button>
+</div>
+
+<script>
+/* Generate random transaction ID if not already set */
+function generateTxnId() {
+    return "TXN-" + Math.random().toString(36).substr(2,4).toUpperCase()
+         + "-" + Math.random().toString(36).substr(2,8).toUpperCase();
+}
+
+function loadSuccessDetails() {
+    let txnId  = localStorage.getItem("lastTxnId")  || generateTxnId();
+    let amount = localStorage.getItem("lastAmount")  || "0";
+    let driver = localStorage.getItem("lastDriver")  || "";
+
+    document.getElementById("txnIdDisplay").innerText = txnId;
+    document.getElementById("txnAmount").innerText    = "₹ " + amount + " Paid";
+    if (driver) document.getElementById("txnDriver").innerText = "Driver: " + driver;
+
+    let now = new Date();
+    document.getElementById("txnDate").innerText = now.toLocaleDateString("en-IN");
+    document.getElementById("txnTime").innerText = now.toLocaleTimeString("en-IN");
+
+    /* Cleanup temp keys */
+    localStorage.removeItem("lastTxnId");
+    localStorage.removeItem("lastAmount");
+    localStorage.removeItem("lastDriver");
+}
+
+loadSuccessDetails();
+</script>
+
+</body>
+</html>

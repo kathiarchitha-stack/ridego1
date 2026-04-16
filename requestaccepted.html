@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ride Accepted - Drivers Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 200% 200%;
+    animation: bgPan 10s ease infinite;
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+@keyframes bgPan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.header {
+    background: rgba(15,23,42,0.7);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.header-title { font-weight: 600; font-size: 18px; }
+
+.header-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+.header-btn:hover { background: rgba(255,255,255,0.2); }
+
+.container {
+    width: 90%; max-width: 460px;
+    margin: 40px auto;
+    background: rgba(30,41,59,0.75);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 35px;
+    text-align: center;
+}
+
+.accepted-img-wrapper {
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, #22c55e, #10b981);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 10px auto 25px;
+    font-size: 60px;
+    box-shadow: 0 10px 30px rgba(34,197,94,0.35);
+    animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+@keyframes bounceIn {
+    0%   { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h3 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+
+.ride-details {
+    text-align: left;
+    background: rgba(15,23,42,0.45);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.detail {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 12px;
+}
+.detail:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+
+.label { font-size: 13px; color: #94a3b8; }
+.value { font-size: 15px; font-weight: 600; text-align: right; max-width: 60%; }
+
+.driver-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: rgba(56,189,248,0.08);
+    border: 1px solid rgba(56,189,248,0.15);
+    padding: 14px;
+    border-radius: 14px;
+}
+.driver-mini img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; border: 2px solid #38bdf8; }
+.driver-mini-name { font-weight: 600; font-size: 15px; }
+.driver-mini-sub  { font-size: 12px; color: #94a3b8; }
+
+.payment-btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(56,189,248,0.35);
+    transition: all 0.3s;
+}
+.payment-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(56,189,248,0.5); }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <button class="header-btn" onclick="window.location.href='driversearch.html'">←</button>
+    <div class="header-title">Ride Status</div>
+    <button class="header-btn" onclick="window.location.href='profile.html'">👤</button>
+</div>
+
+<div class="container">
+
+    <h3>Ride Request Accepted! 🎉</h3>
+    <p class="subtitle">Your driver is confirmed and ready to go</p>
+
+    <div class="accepted-img-wrapper">✔</div>
+
+    <div id="driverMiniCard" class="driver-mini" style="display:none;">
+        <img id="driverThumb" src="" alt="Driver">
+        <div>
+            <div class="driver-mini-name" id="driverMiniName"></div>
+            <div class="driver-mini-sub" id="driverMiniSub"></div>
+        </div>
+    </div>
+
+    <div class="ride-details">
+        <div class="detail">
+            <div class="label">Pickup Location</div>
+            <div class="value" id="pickupLocation">-</div>
+        </div>
+        <div class="detail">
+            <div class="label">Drop Location</div>
+            <div class="value" id="dropLocation">-</div>
+        </div>
+        <div class="detail">
+            <div class="label">Driver Name</div>
+            <div class="value" id="driverName">-</div>
+        </div>
+        <div class="detail">
+            <div class="label">Vehicle</div>
+            <div class="value" id="driverCar">-</div>
+        </div>
+        <div class="detail">
+            <div class="label">Ride Date</div>
+            <div class="value" id="rideDate">-</div>
+        </div>
+    </div>
+
+    <button class="payment-btn" onclick="window.location.href='payment.html'">
+        💳 Proceed to Payment
+    </button>
+</div>
+
+<script>
+function loadRideDetails() {
+    let driver = JSON.parse(localStorage.getItem("selectedDriver"));
+    let pickup = localStorage.getItem("pickupLocation");
+    let drop   = localStorage.getItem("dropLocation");
+
+    if (driver) {
+        document.getElementById("driverName").innerText = driver.name;
+        document.getElementById("driverCar").innerText  = driver.car || "Standard Car";
+
+        /* Driver mini card */
+        if (driver.image) {
+            document.getElementById("driverThumb").src       = driver.image;
+            document.getElementById("driverMiniName").innerText = driver.name;
+            document.getElementById("driverMiniSub").innerText  = "⭐ " + (driver.rating || "5.0") + "  •  " + (driver.exp || "");
+            document.getElementById("driverMiniCard").style.display = "flex";
+        }
+    }
+
+    if (pickup) document.getElementById("pickupLocation").innerText = pickup;
+    if (drop)   document.getElementById("dropLocation").innerText   = drop;
+
+    document.getElementById("rideDate").innerText = new Date().toDateString();
+}
+loadRideDetails();
+</script>
+
+</body>
+</html>

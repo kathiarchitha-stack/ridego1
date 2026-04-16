@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About DriversConnect</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f3f6f9;
+    color:#1f2937;
+}
+
+/* Container */
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+/* Header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:50px;
+    height:50px;
+    background:#1fa97c;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:22px;
+}
+
+.logo-text h2{
+    color:#1fa97c;
+}
+
+.logo-text small{
+    color:#6b7280;
+}
+
+.back-btn{
+    background:none;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* Hero Section */
+.hero{
+    text-align:center;
+    padding:60px 0;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero span{
+    color:#1fa97c;
+}
+
+.hero p{
+    max-width:750px;
+    margin:auto;
+    color:#4b5563;
+    line-height:1.7;
+}
+
+/* Problem & Solution */
+.section-flex{
+    display:flex;
+    gap:30px;
+    margin:50px 0;
+}
+
+.card{
+    flex:1;
+    padding:35px;
+    border-radius:22px;
+}
+
+.problem{
+    background:#fbe9e9;
+}
+
+.solution{
+    background:#e6f4ef;
+}
+
+.card h3{
+    margin-bottom:20px;
+}
+
+.card ul{
+    list-style:none;
+}
+
+.card ul li{
+    margin-bottom:12px;
+    padding-left:10px;
+}
+
+/* Features */
+.features{
+    text-align:center;
+    margin:60px 0 40px;
+}
+
+.features h2{
+    margin-bottom:30px;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:25px;
+}
+
+.feature-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.05);
+    text-align:left;
+}
+
+.feature-card h4{
+    margin-bottom:12px;
+}
+
+.feature-card p{
+    color:#4b5563;
+}
+
+/* CTA */
+.cta{
+    text-align:center;
+    padding:70px 0;
+}
+
+.cta h2{
+    margin-bottom:15px;
+}
+
+.cta p{
+    color:#4b5563;
+    margin-bottom:30px;
+}
+
+
+.btn-primary,
+.btn-secondary{
+  padding:14px 25px;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.btn-primary{
+  background:#10b981;
+  color:#fff;
+  border:none;
+}
+
+/* GET STARTED BUTTON */
+.get-started-btn{
+    padding:15px 40px;
+    background:#1fa97c;
+    color:white;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.get-started-btn:hover{
+    background:#168f67;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .section-flex{
+        flex-direction:column;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🚗</div>
+            <div class="logo-text">
+                <h2>DriversConnect</h2>
+                <small>Verified Drivers, Trusted Rides</small>
+            </div>
+        </div>
+        <button class="back-btn" onclick="history.back()">← Back</button>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>About <span>DriversConnect</span></h1>
+        <p>
+            DriversConnect is a revolutionary platform that bridges the gap between 
+            people who need reliable drivers and verified professional drivers 
+            looking for employment opportunities.
+        </p>
+    </div>
+
+    <!-- PROBLEM & SOLUTION -->
+    <div class="section-flex">
+        <div class="card problem">
+            <h3>The Problem</h3>
+            <ul>
+                <li>• Hiring reliable drivers is challenging and unorganized</li>
+                <li>• Dependence on local contacts lacks transparency</li>
+                <li>• No proper verification or safety checks</li>
+                <li>• Drivers lack a centralized platform for bookings</li>
+            </ul>
+        </div>
+
+        <div class="card solution">
+            <h3>Our Solution</h3>
+            <ul>
+                <li>• Structured digital platform for driver bookings</li>
+                <li>• Complete driver verification with license PDFs</li>
+                <li>• Real-time availability and slot booking</li>
+                <li>• Secure payments directly to driver accounts</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features">
+        <h2>Key Features</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>Verified & Safe</h4>
+                <p>Every driver undergoes thorough verification with valid driving licenses.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Time Slots</h4>
+                <p>Book drivers based on real-time availability and schedule at your convenience.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Google Maps Integration</h4>
+                <p>Accurate navigation, route tracking, and location services.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>For Everyone</h4>
+                <p>Personal travel, business meetings, or emergencies – find the right driver instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Transparent Pricing</h4>
+                <p>Clear hourly rates with no hidden charges. Pay only for what you use.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>Secure Payments</h4>
+                <p>Direct bank transfers with complete transaction security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+        <h2>Ready to Experience Better Travel?</h2>
+        <p>Join DriversConnect today and hire verified drivers with confidence.</p>
+
+        
+        <div class="buttons">
+      <a href="drivercustomer.html" class="btn-primary">Get Started →</a>
+      </div>
+    </div>
+
+</div>
+
+<script>
+function startNow(){
+    alert("Redirecting to registration page...");
+    // window.location.href = "register.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Details</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #f3f5f7;
+}
+
+/* Header */
+.header {
+    height: 70px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.logo {
+    background: #20b486;
+    color: white;
+    padding: 12px;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+/* Main Container */
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    background: white;
+    padding: 50px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Title Section */
+.title-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.icon-box {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px auto;
+    background: #d1fae5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    font-size: 28px;
+    color: #059669;
+}
+
+.title-section h2 {
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-box {
+    position: relative;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 14px 15px 14px 40px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-box input:focus {
+    border-color: #20b486;
+    box-shadow: 0 0 0 3px rgba(32,180,134,0.15);
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #9ca3af;
+}
+
+/* Buttons */
+.primary-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #20b486, #14b8a6);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.primary-btn:hover {
+    opacity: 0.9;
+}
+
+.back-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #e5e7eb;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div>←</div>
+    <div class="logo">🚗</div>
+    <div>👤</div>
+</div>
+
+<!-- Main Card -->
+<div class="container">
+
+    <div class="title-section">
+        <div class="icon-box">🏦</div>
+        <h2>Bank Details for Payments</h2>
+        <p class="subtitle">Add your bank details for secure payments</p>
+    </div>
+
+    <div class="form-group">
+        <label>Bank Name</label>
+        <div class="input-box">
+            <span class="input-icon">🏢</span>
+            <input type="text" id="bankName" placeholder="e.g., State Bank of India">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Account Holder Name</label>
+        <div class="input-box">
+            <span class="input-icon">👤</span>
+            <input type="text" id="accountName" placeholder="As per bank records">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Account Number</label>
+        <div class="input-box">
+            <span class="input-icon">💳</span>
+            <input type="text" id="accountNumber" placeholder="Enter account number">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>IFSC Code</label>
+        <div class="input-box">
+            <span class="input-icon">🔢</span>
+            <input type="text" id="ifscCode" placeholder="E.g., SBIN0001234">
+        </div>
+    </div>
+
+    <button class="primary-btn" onclick="submitBankDetails()">✔ Link Bank Account</button>
+    
+    <button class="back-btn" onclick="window.location.href='driversearch.html'">Back</button>
+
+</div>
+
+<script>
+function submitBankDetails() {
+    let bank = document.getElementById("bankName").value.trim();
+    let name = document.getElementById("accountName").value.trim();
+    let number = document.getElementById("accountNumber").value.trim();
+    let ifsc = document.getElementById("ifscCode").value.trim();
+
+    if(bank === "" || name === "" || number === "" || ifsc === "") {
+        alert("⚠ Please fill all bank details before continuing.");
+        return;
+    }
+
+    alert("✅ Bank Account Linked Successfully!");
+
+    // Redirect after 1 second
+    setTimeout(function(){
+        window.location.href = "driversearch.html";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>

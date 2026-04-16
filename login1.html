@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard - Drivers Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #1a1040);
+            background-size: 200% 200%;
+            animation: bgPan 10s ease infinite;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        @keyframes bgPan {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        .header {
+            background: rgba(15,23,42,0.8);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.35);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .header-logo { display: flex; align-items: center; gap: 12px; }
+
+        .logo-icon {
+            width: 46px; height: 46px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 0 15px rgba(56,189,248,0.4);
+        }
+
+        .logo-text { font-size: 18px; font-weight: 700; }
+        .logo-sub  { font-size: 11px; color: #94a3b8; }
+
+        .header-right { display: flex; align-items: center; gap: 12px; }
+
+        .profile-btn {
+            background: rgba(56,189,248,0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56,189,248,0.25);
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .profile-btn:hover { background: rgba(56,189,248,0.2); }
+
+        .signout-btn {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #f87171;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .signout-btn:hover { background: rgba(239,68,68,0.2); }
+
+        .container { max-width: 750px; margin: 30px auto; padding: 0 20px 60px; }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(129,140,248,0.15));
+            border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 24px;
+            padding: 30px 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .driver-avatar {
+            width: 80px; height: 80px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 3px solid #38bdf8;
+            box-shadow: 0 0 20px rgba(56,189,248,0.3);
+            flex-shrink: 0;
+        }
+
+        .welcome-text h2 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        .welcome-text p  { color: #94a3b8; font-size: 14px; }
+
+        .active-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: #4ade80;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.3); }
+            70%  { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+            100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+
+        .dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
+        }
+
+        .stat-tile {
+            flex: 1; min-width: 120px;
+            background: rgba(30,41,59,0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .stat-tile:hover { transform: translateY(-3px); border-color: rgba(56,189,248,0.3); }
+
+        .stat-tile .num { font-size: 30px; font-weight: 800; color: #38bdf8; }
+        .stat-tile .lbl { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+
+        /* Info Card */
+        .info-card {
+            background: rgba(30,41,59,0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 22px;
+            padding: 26px;
+            margin-bottom: 22px;
+        }
+
+        .info-card h3 {
+            font-size: 17px; font-weight: 600;
+            margin-bottom: 18px;
+            color: #38bdf8;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .lbl { color: #64748b; }
+        .info-row .val { color: #f1f5f9; font-weight: 500; text-align: right; max-width: 60%; }
+
+        /* Toggle */
+        .toggle-card {
+            background: rgba(30,41,59,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 22px;
+            padding: 26px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .toggle-left h3 { font-size: 17px; font-weight: 600; margin-bottom: 5px; }
+        .toggle-left p  { font-size: 13px; color: #94a3b8; }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px; height: 32px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; inset: 0;
+            background: #374151;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .slider:before {
+            content: "";
+            position: absolute;
+            height: 24px; width: 24px;
+            left: 4px; bottom: 4px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        input:checked + .slider { background: #22c55e; }
+        input:checked + .slider:before { transform: translateX(28px); }
+
+        /* Action Buttons */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .action-btn {
+            background: rgba(30,41,59,0.7);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 22px 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            color: white;
+        }
+        .action-btn:hover { transform: translateY(-3px); border-color: rgba(56,189,248,0.3); background: rgba(56,189,248,0.07); }
+
+        .action-btn .icon { font-size: 28px; margin-bottom: 10px; display: block; }
+        .action-btn h4   { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .action-btn p    { font-size: 12px; color: #64748b; }
+
+        /* Document Upload */
+        .upload-zone {
+            border: 2px dashed rgba(56,189,248,0.25);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .upload-zone:hover { border-color: #38bdf8; background: rgba(56,189,248,0.05); }
+        .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+        .upload-zone .u-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+        .upload-zone p  { color: #94a3b8; font-size: 13px; }
+        .upload-zone .u-lbl { font-weight: 600; font-size: 15px; color: #38bdf8; margin-bottom: 5px; }
+
+        .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 5px; }
+
+        .verified-notice {
+            background: rgba(234,179,8,0.1);
+            border: 1px solid rgba(234,179,8,0.25);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 13px;
+            color: #fde047;
+            margin-bottom: 22px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 17px; font-weight: 600;
+            margin-bottom: 16px;
+            color: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-logo">
+            <div class="logo-icon">🚗</div>
+            <div>
+                <div class="logo-text">Driver Dashboard</div>
+                <div class="logo-sub">Drivers Connect</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
+            <button class="signout-btn" onclick="signOut()">Sign Out</button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <img id="driverPhoto" src="https://randomuser.me/api/portraits/men/33.jpg" class="driver-avatar" alt="Driver">
+            <div class="welcome-text">
+                <h2 id="driverName">Welcome, Driver!</h2>
+                <p id="driverEmail">Loading your dashboard...</p>
+                <div class="active-badge">
+                    <div class="dot"></div>
+                    <span>You are Active – Visible to Customers</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-tile">
+                <div class="num" id="statRides">0</div>
+                <div class="lbl">Total Rides</div>
+            </div>
+            <div class="stat-tile">
+                <div class="num" id="statEarnings">₹0</div>
+                <div class="lbl">Earnings</div>
+            </div>
+            <div class="stat-tile">
+                <div class="num" id="statRating">5.0</div>
+                <div class="lbl">Rating</div>
+            </div>
+            <div class="stat-tile">
+                <div class="num" id="statVerif">⏳</div>
+                <div class="lbl">Status</div>
+            </div>
+        </div>
+
+        <!-- Verification notice -->
+        <div class="verified-notice" id="verifyNotice" style="display:none;">
+            ⚠ Your profile is pending admin verification. You are visible to customers but not yet verified.
+        </div>
+
+        <!-- Online Toggle -->
+        <div class="toggle-card">
+            <div class="toggle-left">
+                <h3>Online Status</h3>
+                <p id="toggleStatus">You are currently <strong style="color:#4ade80;">Active</strong> — customers can see you</p>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="onlineToggle" checked onchange="toggleOnline()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- Driver Info -->
+        <div class="info-card">
+            <h3>🪪 Your Driver Profile</h3>
+            <div class="info-row"><span class="lbl">Full Name</span><span class="val" id="infoName">-</span></div>
+            <div class="info-row"><span class="lbl">Phone</span><span class="val" id="infoPhone">-</span></div>
+            <div class="info-row"><span class="lbl">City</span><span class="val" id="infoCity">-</span></div>
+            <div class="info-row"><span class="lbl">Vehicle</span><span class="val" id="infoCar">-</span></div>
+            <div class="info-row"><span class="lbl">Experience</span><span class="val" id="infoExp">-</span></div>
+            <div class="info-row"><span class="lbl">Rate per Hour</span><span class="val" id="infoPrice">-</span></div>
+            <div class="info-row"><span class="lbl">UPI ID</span><span class="val" id="infoUPI">-</span></div>
+            <div class="info-row"><span class="lbl">Verification</span><span class="val" id="infoVerif">-</span></div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="section-title">Quick Actions</div>
+        <div class="actions-grid">
+            <div class="action-btn" onclick="window.location.href='mybooking.html'">
+                <span class="icon">📋</span>
+                <h4>My Rides</h4>
+                <p>View your ride history</p>
+            </div>
+            <div class="action-btn" onclick="window.location.href='support.html'">
+                <span class="icon">💬</span>
+                <h4>Help & Support</h4>
+                <p>Ask questions or report issues</p>
+            </div>
+            <div class="action-btn" onclick="window.location.href='profile.html'">
+                <span class="icon">👤</span>
+                <h4>Edit Profile</h4>
+                <p>Update your information</p>
+            </div>
+            <div class="action-btn" onclick="window.location.href='login3.html'">
+                <span class="icon">💳</span>
+                <h4>UPI Settings</h4>
+                <p>Manage payment details</p>
+            </div>
+        </div>
+
+        <!-- Document Upload -->
+        <div class="info-card">
+            <h3>📄 Upload License Documents</h3>
+            <p style="font-size:13px;color:#94a3b8;margin-bottom:18px;">Upload your driving licenses for admin verification.</p>
+            <div class="upload-grid">
+                <div>
+                    <p style="font-size:13px;font-weight:600;margin-bottom:10px;">2-Wheeler License</p>
+                    <label class="upload-zone">
+                        <input type="file" accept="application/pdf,image/*" onchange="handleUpload(this,'2w')">
+                        <span class="u-icon">📄</span>
+                        <div class="u-lbl">Upload PDF</div>
+                        <p>Click to select file</p>
+                    </label>
+                    <p id="2w-status" style="font-size:12px;color:#4ade80;margin-top:6px;"></p>
+                </div>
+                <div>
+                    <p style="font-size:13px;font-weight:600;margin-bottom:10px;">4-Wheeler License</p>
+                    <label class="upload-zone">
+                        <input type="file" accept="application/pdf,image/*" onchange="handleUpload(this,'4w')">
+                        <span class="u-icon">📄</span>
+                        <div class="u-lbl">Upload PDF</div>
+                        <p>Click to select file</p>
+                    </label>
+                    <p id="4w-status" style="font-size:12px;color:#4ade80;margin-top:6px;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ===== Auth Guard ===== */
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        if (!loggedUser || loggedUser.type !== "driver") {
+            window.location.href = "signin.html";
+        }
+
+        /* ===== Load Driver Data ===== */
+        function loadDriverData() {
+            let users    = JSON.parse(localStorage.getItem("users")) || [];
+            let fullUser = users.find(u => u.email === loggedUser.email) || loggedUser;
+
+            document.getElementById("driverName").innerText  = fullUser.name  || "Driver";
+            document.getElementById("driverEmail").innerText = fullUser.email || "";
+            if (fullUser.image) document.getElementById("driverPhoto").src = fullUser.image;
+
+            document.getElementById("infoName").innerText  = fullUser.name       || "-";
+            document.getElementById("infoPhone").innerText = fullUser.phone      || "-";
+            document.getElementById("infoCity").innerText  = fullUser.city       || "-";
+            document.getElementById("infoCar").innerText   = fullUser.vehicle    || fullUser.car || "-";
+            document.getElementById("infoExp").innerText   = fullUser.experience || fullUser.exp || "-";
+            document.getElementById("infoPrice").innerText = fullUser.price ? "₹" + fullUser.price + "/hour" : "-";
+            document.getElementById("infoUPI").innerText   = fullUser.upi        || "-";
+            document.getElementById("infoRating").value    = fullUser.rating     || "5.0";
+
+            const isVerified = fullUser.isVerified;
+            document.getElementById("infoVerif").innerHTML = isVerified
+                ? '<span style="color:#4ade80;">✅ Verified</span>'
+                : '<span style="color:#fbbf24;">⏳ Pending Admin Verification</span>';
+            document.getElementById("statVerif").innerText = isVerified ? "✅" : "⏳";
+
+            if (!isVerified) {
+                document.getElementById("verifyNotice").style.display = "flex";
+            }
+
+            /* Stats from bookings */
+            let allBookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+            let myBookings  = allBookings.filter(b => b.driver === fullUser.name);
+            let earnings    = myBookings.reduce((sum, b) => sum + (parseInt(b.amount) || 0), 0);
+
+            document.getElementById("statRides").innerText    = myBookings.length;
+            document.getElementById("statEarnings").innerText = "₹" + earnings;
+            document.getElementById("statRating").innerText   = fullUser.rating || "5.0";
+        }
+
+        /* ===== Online Toggle ===== */
+        function toggleOnline() {
+            const isOn  = document.getElementById("onlineToggle").checked;
+            const txtEl = document.getElementById("toggleStatus");
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let idx   = users.findIndex(u => u.email === loggedUser.email);
+            if (idx !== -1) {
+                users[idx].isActive = isOn;
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+
+            let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+            let dIdx = drivers.findIndex(d => d.email === loggedUser.email);
+            if (dIdx !== -1) {
+                drivers[dIdx].isActive = isOn;
+                localStorage.setItem("registeredDrivers", JSON.stringify(drivers));
+            }
+
+            txtEl.innerHTML = isOn
+                ? 'You are currently <strong style="color:#4ade80;">Active</strong> — customers can see you'
+                : 'You are currently <strong style="color:#f87171;">Offline</strong> — hidden from customers';
+        }
+
+        /* ===== File Upload ===== */
+        function handleUpload(input, type) {
+            if (input.files && input.files[0]) {
+                let fname = input.files[0].name;
+                document.getElementById(type + "-status").innerText = "✅ Uploaded: " + fname;
+            }
+        }
+
+        /* ===== Sign Out ===== */
+        function signOut() {
+            /* Mark driver inactive on sign out */
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let idx   = users.findIndex(u => u.email === loggedUser.email);
+            if (idx !== -1) { users[idx].isActive = false; localStorage.setItem("users", JSON.stringify(users)); }
+
+            let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+            let dIdx    = drivers.findIndex(d => d.email === loggedUser.email);
+            if (dIdx !== -1) { drivers[dIdx].isActive = false; localStorage.setItem("registeredDrivers", JSON.stringify(drivers)); }
+
+            localStorage.removeItem("loggedUser");
+            window.location.href = "landing.html";
+        }
+
+        loadDriverData();
+    </script>
+
+</body>
+</html>

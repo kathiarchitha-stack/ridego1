@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Drivers - Drivers Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #f4f6f8;
+            background-image: radial-gradient(circle at top right, #e0e7ff 0%, #f4f6f8 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .header-btn:hover { background: #e2e8f0; transform: translateY(-1px); }
+
+        .header-center {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 50%;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(99,102,241,0.3);
+        }
+
+        .profile-btn {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(99,102,241,0.3);
+        }
+        .profile-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99,102,241,0.4); }
+
+        .map-container {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 3px solid #6366f1;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+        .route-box {
+            width: 90%;
+            margin: -40px auto 20px;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 20px 22px 55px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .route-field {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .route-field:last-of-type { border-bottom: none; }
+        .route-field span { margin-right: 12px; font-size: 18px; }
+        .route-field input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            padding: 6px 0;
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            color: #0f172a;
+        }
+
+        .send-btn {
+            position: absolute;
+            right: 20px;
+            bottom: 18px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            border: none;
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(236,72,153,0.4);
+            transition: all 0.3s;
+        }
+        .send-btn:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 6px 20px rgba(236,72,153,0.6); }
+
+        /* User greeting */
+        .user-greeting {
+            width: 90%;
+            margin: 0 auto 15px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(168,85,247,0.1));
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 14px;
+            font-size: 14px;
+            color: #4338ca;
+            font-weight: 500;
+        }
+
+        /* Drivers Section */
+        #drivers-section { display: none; padding-bottom: 50px; }
+
+        .section-header { width: 90%; margin: 20px auto 12px; }
+        .section-header h3 { font-size: 22px; color: #1e293b; margin-bottom: 4px; }
+        .section-header p  { color: #64748b; font-size: 14px; }
+
+        .driver-card {
+            width: 90%;
+            margin: 14px auto;
+            background: white;
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+        .driver-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: #e0e7ff;
+        }
+
+        .driver-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 6px;
+        }
+
+        .driver-info { display: flex; align-items: center; }
+
+        .driver-info img {
+            width: 68px; height: 68px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-right: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            border: 2px solid #e0e7ff;
+        }
+
+        .driver-name { font-weight: 700; font-size: 17px; color: #0f172a; margin-bottom: 4px; }
+
+        .badges { display: flex; flex-wrap: wrap; gap: 5px; margin: 5px 0; }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-verified  { background: #dcfce7; color: #16a34a; }
+        .badge-active    { background: #dbeafe; color: #1d4ed8; }
+        .badge-special   { background: #fef08a; color: #854d0e; }
+        .badge-unverified { background: #fee2e2; color: #991b1b; }
+
+        .driver-meta { font-size: 13px; color: #64748b; margin-top: 3px; }
+
+        .price {
+            text-align: right;
+            font-weight: 700;
+            color: #6366f1;
+            font-size: 22px;
+        }
+        .price span { display: block; font-size: 12px; color: #94a3b8; font-weight: 400; }
+        .price .avail {
+            font-size: 11px;
+            margin-top: 6px;
+            color: #10b981;
+            font-weight: 600;
+            background: #d1fae5;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .slot-btn {
+            width: 100%;
+            margin-top: 18px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+        }
+        .slot-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(99,102,241,0.5); }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #94a3b8;
+        }
+        .empty-state .icon { font-size: 50px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <button class="header-btn" onclick="window.location.href='signin.html'">← Sign Out</button>
+        <div class="header-center">🚗</div>
+        <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
+    </div>
+
+    <!-- Map -->
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps?q=Hyderabad&z=13&output=embed" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <!-- Route Box -->
+    <div class="route-box">
+        <div class="route-field">
+            <span>📍</span>
+            <input type="text" id="pickup" placeholder="Enter Pickup Location">
+        </div>
+        <div class="route-field">
+            <span>📌</span>
+            <input type="text" id="drop" placeholder="Enter Drop Location">
+        </div>
+        <button class="send-btn" onclick="showDrivers()">➤</button>
+    </div>
+
+    <!-- Drivers Section -->
+    <div id="drivers-section">
+        <div class="section-header">
+            <h3>Available Drivers</h3>
+            <p id="driver-count"></p>
+        </div>
+        <div id="driver-list"></div>
+    </div>
+
+    <script>
+        /* ============ Load logged user ============ */
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        if (!loggedUser) {
+            window.location.href = "signin.html";
+        }
+
+        /* ============ Default Drivers ============ */
+        const defaultDrivers = [
+            { name: "Vikram Adityan",  exp: "12 yrs", rating: "5.0", price: 500, car: "Mercedes-Benz S-Class", badge: "VIP Luxury",     upi: "vikram@oksbi",    image: "https://randomuser.me/api/portraits/men/75.jpg",  isActive: true, isVerified: true  },
+            { name: "Rajesh Kumar",    exp: "8 yrs",  rating: "4.9", price: 250, car: "Toyota Innova Crysta", badge: "Premium SUV",     upi: "rajesh@okicici", image: "https://randomuser.me/api/portraits/men/32.jpg",  isActive: true, isVerified: true  },
+            { name: "Suresh Patel",    exp: "6 yrs",  rating: "4.7", price: 180, car: "Hyundai Verna",        badge: "Comfort Sedan",  upi: "suresh@okhdfc",  image: "https://randomuser.me/api/portraits/men/45.jpg",  isActive: true, isVerified: true  },
+            { name: "Arjun Reddy",     exp: "4 yrs",  rating: "4.8", price: 200, car: "Tata Nexon EV",        badge: "Eco-Friendly",   upi: "arjun@ybl",      image: "https://randomuser.me/api/portraits/men/22.jpg",  isActive: true, isVerified: true  },
+            { name: "Priya Sharma",    exp: "7 yrs",  rating: "4.9", price: 220, car: "Honda City",           badge: "Top Rated",      upi: "priya@okaxis",   image: "https://randomuser.me/api/portraits/women/44.jpg", isActive: true, isVerified: true  },
+            { name: "Amit Singh",      exp: "3 yrs",  rating: "4.6", price: 150, car: "Maruti Swift Dzire",   badge: "Budget Friendly",upi: "amit@okpaytm",   image: "https://randomuser.me/api/portraits/men/55.jpg",  isActive: true, isVerified: true  },
+            { name: "Kavitha Rajan",   exp: "5 yrs",  rating: "4.8", price: 190, car: "Kia Seltos",           badge: "Women Driver",   upi: "kavitha@okaxis", image: "https://randomuser.me/api/portraits/women/22.jpg", isActive: true, isVerified: true  },
+        ];
+
+        /* ============ Get All Active Drivers ============ */
+        function getAllActiveDrivers() {
+            let registeredDrivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+            let activeRegistered  = registeredDrivers.filter(d => d.isActive === true);
+            return [...defaultDrivers, ...activeRegistered];
+        }
+
+        /* ============ Show Drivers ============ */
+        function showDrivers() {
+            const pickup = document.getElementById("pickup").value.trim();
+            const drop   = document.getElementById("drop").value.trim();
+
+            if (!pickup || !drop) {
+                alert("⚠ Please enter both pickup and drop locations!");
+                return;
+            }
+
+            localStorage.setItem("pickupLocation", pickup);
+            localStorage.setItem("dropLocation",   drop);
+
+            /* Update map */
+            document.querySelector(".map-container iframe").src =
+                "https://www.google.com/maps?saddr=" + encodeURIComponent(pickup) +
+                "&daddr=" + encodeURIComponent(drop) + "&output=embed";
+
+            const allDrivers = getAllActiveDrivers();
+            document.getElementById("drivers-section").style.display = "block";
+            document.getElementById("driver-count").innerText = allDrivers.length + " active drivers available";
+
+            let html = "";
+            allDrivers.forEach((driver, idx) => {
+                const isRegistered = idx >= defaultDrivers.length;
+                html += `
+<div class="driver-card">
+    <div style="position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,#6366f1,#a855f7);"></div>
+    <div class="driver-top">
+        <div class="driver-info">
+            <img src="${driver.image || 'https://randomuser.me/api/portraits/men/1.jpg'}" alt="${driver.name}">
+            <div>
+                <div class="driver-name">${driver.name}</div>
+                <div class="badges">
+                    ${driver.isVerified ? '<span class="badge badge-verified">✓ Verified</span>' : '<span class="badge badge-unverified">⏳ Pending Verification</span>'}
+                    <span class="badge badge-active">🟢 Active</span>
+                    ${driver.badge ? '<span class="badge badge-special">✨ ' + driver.badge + '</span>' : ''}
+                </div>
+                <div class="driver-meta">🚗 ${driver.car || "Standard Car"}</div>
+                <div class="driver-meta">🎖 ${driver.exp} experience &nbsp;⭐ ${driver.rating}</div>
+                ${driver.phone ? '<div class="driver-meta">📞 ' + driver.phone + '</div>' : ''}
+                ${driver.city  ? '<div class="driver-meta">📍 ' + driver.city + '</div>' : ''}
+            </div>
+        </div>
+        <div class="price">
+            ₹${driver.price}
+            <span>per hour</span>
+            <div class="avail">Available Now</div>
+        </div>
+    </div>
+    <button class="slot-btn" onclick="selectDriver(${idx})">
+        Book ${driver.name.split(' ')[0]} Now
+    </button>
+</div>`;
+            });
+
+            document.getElementById("driver-list").innerHTML = html;
+        }
+
+        /* ============ Select Driver ============ */
+        function selectDriver(idx) {
+            const allDrivers = getAllActiveDrivers();
+            const driver = allDrivers[idx];
+            localStorage.setItem("selectedDriver", JSON.stringify({
+                name:    driver.name,
+                rate:    driver.price,
+                upi:     driver.upi,
+                car:     driver.car,
+                rating:  driver.rating,
+                exp:     driver.exp,
+                phone:   driver.phone || "",
+                image:   driver.image || ""
+            }));
+            window.location.href = "bookingconformation.html";
+        }
+    </script>
+
+</body>
+</html>

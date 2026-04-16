@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Rejected - Drivers Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 200% 200%;
+    animation: bgPan 10s ease infinite;
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes bgPan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card {
+    width: 90%;
+    max-width: 440px;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 28px;
+    padding: 45px 35px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(239,68,68,0.08);
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.reject-icon {
+    width: 110px; height: 110px;
+    background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(220,38,38,0.1));
+    border: 2px solid rgba(239,68,68,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 55px;
+    animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+    box-shadow: 0 0 30px rgba(239,68,68,0.2);
+}
+
+@keyframes bounceIn {
+    0%   { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f87171;
+    margin-bottom: 14px;
+}
+
+.subtitle {
+    color: #94a3b8;
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.reason-box {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.reason-title {
+    font-size: 13px;
+    color: #f87171;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.reason-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #cbd5e1;
+    margin-bottom: 7px;
+}
+
+.btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.retry-btn {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    color: white;
+    box-shadow: 0 8px 20px rgba(56,189,248,0.3);
+}
+.retry-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(56,189,248,0.5); }
+
+.home-btn {
+    background: rgba(255,255,255,0.06);
+    color: #94a3b8;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 12px;
+}
+.home-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <div class="reject-icon">❌</div>
+
+    <h2>Request Rejected</h2>
+    <p class="subtitle">
+        Sorry! The driver was unable to accept your booking request at this time. This can happen due to various reasons.
+    </p>
+
+    <div class="reason-box">
+        <div class="reason-title">⚠ Possible Reasons:</div>
+        <div class="reason-item">🚗 Driver is currently on another ride</div>
+        <div class="reason-item">📍 Route not feasible at this time</div>
+        <div class="reason-item">⏰ Driver unavailable for requested schedule</div>
+        <div class="reason-item">🔧 Vehicle under maintenance</div>
+    </div>
+
+    <button class="btn retry-btn" onclick="tryAgain()">🔄 Try Another Driver</button>
+    <button class="btn home-btn" onclick="window.location.href='driversearch.html'">🏠 Go to Home</button>
+</div>
+
+<script>
+function tryAgain() {
+    /* Clear only selected driver, keep locations */
+    localStorage.removeItem("selectedDriver");
+    window.location.href = "driversearch.html";
+}
+</script>
+
+</body>
+</html>

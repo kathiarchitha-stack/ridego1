@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - Drivers Connect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background-size: 200% 200%;
+    animation: bgPan 10s ease infinite;
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+@keyframes bgPan {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.header {
+    background: rgba(15,23,42,0.7);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.back-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+.back-btn:hover { background: rgba(255,255,255,0.2); }
+
+.logo {
+    width: 45px; height: 45px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 15px rgba(56,189,248,0.4);
+}
+
+.container { width: 90%; max-width: 600px; margin: 30px auto; }
+
+.profile-card {
+    background: rgba(30,41,59,0.75);
+    backdrop-filter: blur(20px);
+    padding: 28px;
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.profile-top { display: flex; justify-content: space-between; align-items: center; }
+.profile-left { display: flex; align-items: center; gap: 15px; }
+
+.profile-photo {
+    width: 85px; height: 85px;
+    border-radius: 50%;
+    border: 3px solid #38bdf8;
+    object-fit: cover;
+    box-shadow: 0 5px 18px rgba(56,189,248,0.3);
+}
+
+.profile-info h3 { margin: 0; font-size: 22px; font-weight: 700; }
+.profile-info p  { margin: 5px 0 0; font-size: 13px; color: #94a3b8; }
+
+.type-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 3px 12px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.2));
+    border: 1px solid rgba(56,189,248,0.3);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #38bdf8;
+    text-transform: capitalize;
+}
+
+.extra-details { margin-top: 25px; }
+
+.detail-item { margin-bottom: 13px; }
+.detail-item .lbl { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+.detail-item .val { font-size: 15px; font-weight: 500; margin-top: 3px; }
+
+.divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 20px 0; }
+
+.menu-card {
+    margin-top: 22px;
+    background: rgba(30,41,59,0.75);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+.menu-item {
+    padding: 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.menu-item:hover { background: rgba(255,255,255,0.05); }
+.menu-item:last-child { border-bottom: none; }
+
+.menu-left { display: flex; align-items: center; gap: 15px; }
+
+.menu-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(129,140,248,0.12));
+    border-radius: 13px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    border: 1px solid rgba(56,189,248,0.2);
+}
+
+.menu-text h4 { margin: 0; font-size: 15px; font-weight: 500; }
+.menu-text p  { margin: 3px 0 0; font-size: 12px; color: #94a3b8; }
+
+.arrow { color: #64748b; font-size: 20px; }
+
+.signout {
+    margin-top: 25px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    padding: 16px;
+    text-align: center;
+    border-radius: 16px;
+    color: #f87171;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 15px;
+}
+.signout:hover { background: rgba(239,68,68,0.2); }
+
+.not-logged {
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+}
+.not-logged h3 { font-size: 22px; color: white; margin-bottom: 12px; }
+.not-logged a  { color: #38bdf8; text-decoration: none; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+    <div class="logo">🚗</div>
+    <div style="width:70px;"></div>
+</div>
+
+<div class="container" id="profileContent">
+    <!-- filled by JS -->
+</div>
+
+<script>
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+function goBack() {
+    if (!loggedUser) { window.location.href = "signin.html"; return; }
+    if (loggedUser.type === "driver")  window.location.href = "login1.html";
+    else if (loggedUser.type === "admin") window.location.href = "admin.html";
+    else window.location.href = "driversearch.html";
+}
+
+function signOut() {
+    if (loggedUser && loggedUser.type === "driver") {
+        /* Mark driver inactive */
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let idx = users.findIndex(u => u.email === loggedUser.email);
+        if (idx !== -1) { users[idx].isActive = false; localStorage.setItem("users", JSON.stringify(users)); }
+
+        let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
+        let dIdx = drivers.findIndex(d => d.email === loggedUser.email);
+        if (dIdx !== -1) { drivers[dIdx].isActive = false; localStorage.setItem("registeredDrivers", JSON.stringify(drivers)); }
+    }
+    localStorage.removeItem("loggedUser");
+    window.location.href = "landing.html";
+}
+
+function renderProfile() {
+    const content = document.getElementById("profileContent");
+
+    if (!loggedUser) {
+        content.innerHTML = `
+        <div class="not-logged">
+            <div style="font-size:60px;margin-bottom:20px;">🔒</div>
+            <h3>Not Logged In</h3>
+            <p>Please <a href="signin.html">Sign In</a> to view your profile.</p>
+        </div>`;
+        return;
+    }
+
+    /* Get full user data */
+    let users    = JSON.parse(localStorage.getItem("users")) || [];
+    let fullUser = users.find(u => u.email === loggedUser.email) || loggedUser;
+
+    let bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+    let myBookings = bookings.length;
+
+    let photoSrc = fullUser.image || (fullUser.type === "driver"
+        ? "https://randomuser.me/api/portraits/men/33.jpg"
+        : "https://cdn-icons-png.flaticon.com/512/149/149071.png");
+
+    let extraFields = "";
+    if (fullUser.phone)  extraFields += `<div class="detail-item"><div class="lbl">Phone</div><div class="val">📞 ${fullUser.phone}</div></div>`;
+    if (fullUser.city)   extraFields += `<div class="detail-item"><div class="lbl">City</div><div class="val">📍 ${fullUser.city}</div></div>`;
+    if (fullUser.type === "driver") {
+        if (fullUser.vehicle || fullUser.car) extraFields += `<div class="detail-item"><div class="lbl">Vehicle</div><div class="val">🚗 ${fullUser.vehicle || fullUser.car}</div></div>`;
+        if (fullUser.experience || fullUser.exp) extraFields += `<div class="detail-item"><div class="lbl">Experience</div><div class="val">🎖 ${fullUser.experience || fullUser.exp}</div></div>`;
+        if (fullUser.price) extraFields += `<div class="detail-item"><div class="lbl">Rate</div><div class="val">₹${fullUser.price}/hour</div></div>`;
+        if (fullUser.isVerified !== undefined) extraFields += `<div class="detail-item"><div class="lbl">Verification</div><div class="val">${fullUser.isVerified ? '✅ Verified by Admin' : '⏳ Pending Verification'}</div></div>`;
+    }
+    if (fullUser.joinDate) extraFields += `<div class="detail-item"><div class="lbl">Member Since</div><div class="val">📅 ${fullUser.joinDate}</div></div>`;
+
+    let homeLink = fullUser.type === "driver" ? "login1.html" : "driversearch.html";
+
+    content.innerHTML = `
+    <div class="profile-card">
+        <div class="profile-top">
+            <div class="profile-left">
+                <img src="${photoSrc}" alt="Profile" class="profile-photo" id="profilePhoto">
+                <div class="profile-info">
+                    <h3 id="profileName">${fullUser.name || "User"}</h3>
+                    <p id="profileEmail">${fullUser.email || ""}</p>
+                    <span class="type-badge">${fullUser.type || "customer"}</span>
+                </div>
+            </div>
+        </div>
+        <hr class="divider">
+        <div class="extra-details">${extraFields}</div>
+    </div>
+
+    <div class="menu-card">
+        <div class="menu-item" onclick="window.location.href='mybooking.html'">
+            <div class="menu-left">
+                <div class="menu-icon">📋</div>
+                <div class="menu-text">
+                    <h4>My Bookings</h4>
+                    <p>${myBookings} total booking(s)</p>
+                </div>
+            </div>
+            <div class="arrow">›</div>
+        </div>
+        <div class="menu-item" onclick="window.location.href='support.html'">
+            <div class="menu-left">
+                <div class="menu-icon">💬</div>
+                <div class="menu-text">
+                    <h4>Help & Support</h4>
+                    <p>Ask questions or report issues</p>
+                </div>
+            </div>
+            <div class="arrow">›</div>
+        </div>
+        <div class="menu-item" onclick="window.location.href='${homeLink}'">
+            <div class="menu-left">
+                <div class="menu-icon">🏠</div>
+                <div class="menu-text">
+                    <h4>Go to Dashboard</h4>
+                    <p>Back to main page</p>
+                </div>
+            </div>
+            <div class="arrow">›</div>
+        </div>
+    </div>
+
+    <div class="signout" onclick="signOut()">⤴ Sign Out</div>`;
+}
+
+renderProfile();
+</script>
+
+</body>
+</html>
