@@ -188,7 +188,7 @@ textarea { resize: vertical; min-height: 110px; }
 
 <div class="header">
     <button class="back-btn" onclick="goBack()">← Back</button>
-    <div class="logo">🚗</div>
+    <div class="logo" style="background:transparent; box-shadow:none;"><img src="logo.png" alt="Logo" style="height:100%; width:100%; object-fit:contain; border-radius:50%;"></div>
     <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
 </div>
 
@@ -229,8 +229,11 @@ const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
 
 function goBack() {
     if (!loggedUser) { window.location.href = "signin.html"; return; }
-    if (loggedUser.type === "driver")  window.location.href = "login1.html";
-    else window.location.href = "driversearch.html";
+    if (loggedUser.type === "driver") {
+        window.location.href = loggedUser.isProfileComplete ? "customerssearch.html" : "login1.html";
+    } else {
+        window.location.href = "driversearch.html";
+    }
 }
 
 function submitTicket() {

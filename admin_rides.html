@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideGo Admin - Rides</title>
+
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+body{ display:flex; background:#0f172a; color:#e5e7eb; min-height: 100vh; }
+.sidebar{ width:250px; background:#020617; padding:20px; height:100vh; position: sticky; top: 0; }
+.sidebar h2{ color:#38bdf8; margin-bottom:20px; }
+.sidebar button{ width:100%; padding:12px; background:#38bdf8; border:none; color:#000; border-radius:8px; margin-bottom:20px; font-weight: 600; cursor:pointer; }
+.menu{ list-style:none; }
+.menu li{ padding:12px 15px; border-radius:8px; margin-bottom:8px; cursor:pointer; font-weight: 500; }
+.menu li.active { background: #1e293b; color: #38bdf8; }
+.menu li:hover:not(.active){ background:#1e293b; }
+.main{ flex:1; padding:30px 40px; }
+.header{ font-size:26px; font-weight:600; margin-bottom:30px; }
+.search-bar{ display:flex; gap:10px; margin-bottom:20px; }
+.search-bar input{ flex:1; padding:12px 15px; border:none; border-radius:8px; background:#020617; color:#fff; border: 1px solid rgba(255,255,255,0.05); }
+.search-bar button{ padding:10px 25px; border:none; background:#38bdf8; color: #000; font-weight: 600; border-radius:8px; cursor:pointer; }
+.table-container { background: #020617; border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); }
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding:15px; text-align:left; }
+th{ background:#1e293b; color: #94a3b8; font-size: 13px; text-transform: uppercase; }
+tr{ border-bottom:1px solid rgba(255,255,255,0.05); }
+.status{ padding:6px 12px; border-radius:6px; font-size:12px; font-weight: 600; }
+.completed{ background:rgba(22, 163, 74, 0.2); color: #4ade80; }
+.pending{ background:rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.cancelled{ background:rgba(239, 68, 68, 0.2); color: #f87171; }
+.accepted{ background:rgba(56, 189, 248, 0.2); color: #38bdf8; }
+.rejected{ background:rgba(239, 68, 68, 0.2); color: #f87171; }
+</style>
+</head>
+
+<body>
+<div class="sidebar">
+    <h2 style="display:flex; align-items:center; gap:10px; justify-content:center;"><img src="logo.png" alt="Logo" style="height:35px; width:35px; border-radius:50%;"> RideGo Admin</h2>
+    <button>+ New Ride</button>
+    <ul class="menu">
+        <li onclick="window.location.href='admin.html'">🏠 Home</li>
+        <li class="active" onclick="window.location.href='admin_rides.html'">🚗 Rides</li>
+        <li onclick="window.location.href='admin_payments.html'">💳 Payments</li>
+        <li onclick="window.location.href='admin_drivers.html'">👤 Drivers</li>
+    </ul>
+</div>
+
+<div class="main">
+    <div class="header">Manage Rides</div>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by Customer or Driver Name...">
+        <button onclick="searchRide()">Search</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Txn ID</th>
+                    <th>Customer</th>
+                    <th>Driver</th>
+                    <th>Route</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Fare</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function loadRides() {
+        let allBookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+        let tbody = document.getElementById("tableBody");
+        if(allBookings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px;">No rides found.</td></tr>`;
+            return;
+        }
+
+        let html = "";
+        allBookings.reverse().forEach(b => {
+            let sClass = (b.status || "pending").toLowerCase();
+            html += `<tr>
+                <td style="color:#64748b; font-size:12px;">${b.txnId || "-"}</td>
+                <td style="color:#f8fafc; font-weight:600;">${b.customerName || "Customer"}</td>
+                <td>${b.driver || "Unassigned"}</td>
+                <td>${b.pickup} ➔ ${b.drop}</td>
+                <td>${b.date}</td>
+                <td><span class="status ${sClass}">${b.status || "Pending"}</span></td>
+                <td style="color:#38bdf8; font-weight:600;">₹${b.amount || 0}</td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function searchRide(){
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let rows = document.querySelectorAll("#tableBody tr");
+        rows.forEach(row=>{
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+
+    loadRides();
+</script>
+</body>
+</html>

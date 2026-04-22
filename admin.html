@@ -1,191 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideGo Admin - Home</title>
 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0f172a;
-            color: white;
-            padding: 20px;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+body{
+    display:flex;
+    background:#0f172a;
+    color:#e5e7eb;
+    min-height: 100vh;
+}
 
-        button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 5px;
-        }
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:#020617;
+    padding:20px;
+    height:100vh;
+    position: sticky;
+    top: 0;
+}
 
-        .logout {
-            background: red;
-            color: white;
-        }
+.sidebar h2{
+    color:#38bdf8;
+    margin-bottom:20px;
+}
 
-        .delete {
-            background: crimson;
-            color: white;
-        }
+.sidebar button{
+    width:100%;
+    padding:12px;
+    background:#38bdf8;
+    border:none;
+    color:#000;
+    border-radius:8px;
+    margin-bottom:20px;
+    font-weight: 600;
+    cursor:pointer;
+    transition: 0.3s;
+}
 
-        .card {
-            background: #1e293b;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
+.sidebar button:hover {
+    background:#0ea5e9;
+}
 
-        .active {
-            color: #4ade80;
-        }
+.menu{
+    list-style:none;
+}
 
-        .inactive {
-            color: #f87171;
-        }
-    </style>
+.menu li{
+    padding:12px 15px;
+    border-radius:8px;
+    margin-bottom:8px;
+    cursor:pointer;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.menu li.active {
+    background: #1e293b;
+    color: #38bdf8;
+}
+
+.menu li:hover:not(.active){
+    background:#1e293b;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:30px 40px;
+}
+
+/* HEADER */
+.header{
+    font-size:26px;
+    font-weight:600;
+    margin-bottom:30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logout-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.logout-btn:hover { background: rgba(239, 68, 68, 0.2); }
+
+/* CARDS */
+.cards{
+    display:flex;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    flex:1;
+    background:#1e293b;
+    padding:25px;
+    border-radius:12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card h3{
+    margin-bottom:10px;
+    color: #94a3b8;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.card .value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+/* TABLE */
+.table-container {
+    background: #020617;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.table-header { margin-bottom: 15px; }
+.table-header h3 { font-size: 18px; color: #f8fafc; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:15px;
+    text-align:left;
+}
+
+th{
+    background:#1e293b;
+    color: #94a3b8;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+tr{ border-bottom:1px solid rgba(255,255,255,0.05); }
+tr:last-child { border-bottom: none; }
+
+.status{
+    padding:6px 12px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight: 600;
+}
+
+.completed{ background:rgba(22, 163, 74, 0.2); color: #4ade80; }
+.pending{ background:rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.cancelled{ background:rgba(239, 68, 68, 0.2); color: #f87171; }
+.accepted{ background:rgba(56, 189, 248, 0.2); color: #38bdf8; }
+.rejected{ background:rgba(239, 68, 68, 0.2); color: #f87171; }
+
+.empty-state { text-align: center; color: #94a3b8; padding: 25px; }
+</style>
 </head>
 
 <body>
 
+<div class="sidebar">
+    <h2 style="display:flex; align-items:center; gap:10px; justify-content:center;"><img src="logo.png" alt="Logo" style="height:35px; width:35px; border-radius:50%;"> RideGo Admin</h2>
+    <button onclick="newRide()">+ New Ride</button>
+
+    <ul class="menu">
+        <li class="active" onclick="window.location.href='admin.html'">🏠 Home</li>
+        <li onclick="window.location.href='admin_rides.html'">🚗 Rides</li>
+        <li onclick="window.location.href='admin_payments.html'">💳 Payments</li>
+        <li onclick="window.location.href='admin_drivers.html'">👤 Drivers</li>
+    </ul>
+</div>
+
+<div class="main">
+
     <div class="header">
-        <h2>🛡 Admin Dashboard</h2>
-        <button class="logout" onclick="logout()">Logout</button>
+        <span>Welcome, Admin Dashboard</span>
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
     </div>
 
-    <h3>👥 All Users</h3>
-    <div id="usersList"></div>
-
-    <h3>🚗 Drivers</h3>
-    <div id="driversList"></div>
-
-    <script>
-
-        /* =========================
-           ✅ ADMIN AUTH CHECK
-        ========================= */
-        const loggedUser = JSON.parse(localStorage.getItem("user"));
-
-        if (!loggedUser || loggedUser.type !== "admin") {
-            alert("Access Denied! Admin only.");
-            window.location.href = "signin.html";
-        }
-
-        /* =========================
-           ✅ LOGOUT
-        ========================= */
-        function logout() {
-            localStorage.removeItem("user");
-            window.location.href = "signin.html";
-        }
-
-        /* =========================
-           ✅ LOAD ALL USERS
-        ========================= */
-        function loadUsers() {
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-
-            let html = "";
-
-            users.forEach((u, index) => {
-                html += `
-        <div class="card">
-            <b>${u.name}</b><br>
-            Email: ${u.email}<br>
-            Type: ${u.type}<br>
-            Status: <span class="${u.isActive ? 'active' : 'inactive'}">
-                ${u.isActive ? 'Active' : 'Inactive'}
-            </span><br>
-
-            <button class="delete" onclick="deleteUser(${index})">Delete</button>
+    <div class="cards">
+        <div class="card" style="cursor:pointer;" onclick="window.location.href='admin_rides.html'">
+            <h3>Total Rides</h3>
+            <div class="value" id="valRides">0</div>
         </div>
-        `;
-            });
 
-            document.getElementById("usersList").innerHTML = html;
-        }
-
-        /* =========================
-           ✅ LOAD DRIVERS ONLY
-        ========================= */
-        function loadDrivers() {
-            let users = JSON.parse(localStorage.getItem("users")) || [];
-
-            let drivers = users.filter(u => u.type === "driver");
-
-            let html = "";
-
-            drivers.forEach((d, index) => {
-                html += `
-        <div class="card">
-            <b>${d.name}</b><br>
-            Email: ${d.email}<br>
-            Vehicle: ${d.vehicle || "N/A"}<br>
-            Price: ₹${d.price || 0}/hr<br>
-            Experience: ${d.experience || "N/A"}<br>
-            Status: <span class="${d.isActive ? 'active' : 'inactive'}">
-                ${d.isActive ? 'Active' : 'Inactive'}
-            </span><br>
-
-            <button class="delete" onclick="deleteDriver('${d.email}')">Delete</button>
+        <div class="card" style="cursor:pointer;" onclick="window.location.href='admin_payments.html'">
+            <h3>Total Earnings</h3>
+            <div class="value" id="valEarnings">₹0</div>
         </div>
-        `;
+
+        <div class="card" style="cursor:pointer;" onclick="window.location.href='admin_drivers.html'">
+            <h3>Registered Drivers</h3>
+            <div class="value" id="valDrivers">0</div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-header">
+            <h3>Recent Booking Activity</h3>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Driver</th>
+                    <th>Pickup</th>
+                    <th>Drop</th>
+                    <th>Status</th>
+                    <th>Fare</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="table-container" style="margin-top: 30px;">
+        <div class="table-header">
+            <h3>💬 Support Tickets</h3>
+        </div>
+        <div id="ticketsPanel"></div>
+    </div>
+
+</div>
+
+<script>
+    /* Auth Guard */
+    const user = JSON.parse(localStorage.getItem("user"));
+    const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+    if ((!user || user.type !== "admin") && (!loggedUser || loggedUser.type !== "admin")) {
+        window.location.href = "signin.html";
+    }
+
+    function logout() {
+        localStorage.removeItem("user");
+        localStorage.removeItem("loggedUser");
+        window.location.href = "signin.html";
+    }
+
+    function newRide() { alert("New Ride Feature Coming Soon 🚗"); }
+
+    function loadDashboard() {
+        let allBookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+        document.getElementById("valRides").innerText = allBookings.length;
+        
+        let rev = allBookings.reduce((sum, b) => {
+            if(b.status !== 'rejected' && b.status !== 'cancelled') return sum + (parseInt(b.amount)||0);
+            return sum;
+        }, 0);
+        document.getElementById("valEarnings").innerText = "₹" + rev;
+
+        let numDrivers = (JSON.parse(localStorage.getItem("users")) || []).filter(u => u.type === 'driver').length;
+        document.getElementById("valDrivers").innerText = numDrivers || 7;
+
+        let tbody = document.getElementById("tableBody");
+        if(allBookings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No recent activity.</td></tr>`;
+        } else {
+            let html = "";
+            let recent = [...allBookings].reverse().slice(0, 5);
+            recent.forEach(b => {
+                let sClass = (b.status || "pending").toLowerCase();
+                html += `<tr>
+                    <td style="color:#f8fafc; font-weight:600;">${b.customerName || "Customer"}</td>
+                    <td>${b.driver || "Unassigned"}</td>
+                    <td>${b.pickup || "-"}</td>
+                    <td>${b.drop || "-"}</td>
+                    <td><span class="status ${sClass}">${b.status || "Pending"}</span></td>
+                    <td style="color:#38bdf8; font-weight:600;">₹${b.amount || 0}</td>
+                </tr>`;
             });
-
-            document.getElementById("driversList").innerHTML = html;
+            tbody.innerHTML = html;
         }
 
-        /* =========================
-           ✅ DELETE USER
-        ========================= */
-        function deleteUser(index) {
-            let users = JSON.parse(localStorage.getItem("users")) || [];
+        loadTickets();
+    }
 
-            if (confirm("Delete this user?")) {
-                users.splice(index, 1);
-                localStorage.setItem("users", JSON.stringify(users));
-                loadUsers();
-                loadDrivers();
-            }
+    function loadTickets() {
+        let tickets = JSON.parse(localStorage.getItem("supportTickets")) || [];
+        const panel = document.getElementById("ticketsPanel");
+
+        if (tickets.length === 0) {
+            panel.innerHTML = `<div style="padding:25px; text-align:center; color:#64748b;">No support tickets yet.</div>`;
+            return;
         }
 
-        /* =========================
-           ✅ DELETE DRIVER
-        ========================= */
-        function deleteDriver(email) {
-            let users = JSON.parse(localStorage.getItem("users")) || [];
+        let html = "";
+        tickets.slice().reverse().forEach((t, revIdx) => {
+            let realIdx = tickets.length - 1 - revIdx;
+            let statusColor = t.resolved ? "#4ade80" : "#fbbf24";
+            let statusText  = t.resolved ? "✅ Resolved" : "⏳ Pending";
+            html += `
+            <div style="padding:20px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                    <div>
+                        <strong style="color:#f8fafc;">${t.userName}</strong>
+                        <span style="color:#64748b; font-size:12px; margin-left:8px;">${t.email}</span>
+                        <span style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.25);color:#38bdf8;padding:2px 10px;border-radius:10px;font-size:11px;margin-left:8px;">${t.category}</span>
+                    </div>
+                    <span style="color:${statusColor}; font-size:13px; font-weight:600;">${statusText}</span>
+                </div>
+                <div style="background:rgba(15,23,42,0.4); padding:14px; border-radius:10px; font-size:14px; color:#cbd5e1; margin-bottom:12px;">${t.message}</div>
+                ${t.adminReply ? `<div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:12px;font-size:13px;color:#94a3b8;"><strong style="color:#38bdf8;">Your Reply:</strong> ${t.adminReply}</div>` : ""}
+                <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                    <textarea id="reply-${realIdx}" placeholder="Type your reply..." style="flex:1;min-width:200px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(15,23,42,0.55);color:white;font-family:inherit;font-size:13px;resize:none;height:60px;">${t.adminReply || ""}</textarea>
+                    <button onclick="replyTicket(${realIdx})" style="padding:10px 18px;background:linear-gradient(135deg,#38bdf8,#818cf8);border:none;border-radius:10px;color:white;font-weight:600;cursor:pointer;align-self:flex-end;">Send Reply</button>
+                </div>
+            </div>`;
+        });
+        panel.innerHTML = html;
+    }
 
-            users = users.filter(u => u.email !== email);
+    function replyTicket(idx) {
+        let replyEl = document.getElementById("reply-" + idx);
+        if (!replyEl) return;
+        let replyText = replyEl.value.trim();
+        if (!replyText) { alert("Please type a reply first."); return; }
 
-            localStorage.setItem("users", JSON.stringify(users));
-
-            /* also remove from registeredDrivers */
-            let drivers = JSON.parse(localStorage.getItem("registeredDrivers")) || [];
-            drivers = drivers.filter(d => d.email !== email);
-            localStorage.setItem("registeredDrivers", JSON.stringify(drivers));
-
-            loadUsers();
-            loadDrivers();
+        let tickets = JSON.parse(localStorage.getItem("supportTickets")) || [];
+        if (tickets[idx]) {
+            tickets[idx].adminReply = replyText;
+            tickets[idx].resolved = true;
+            localStorage.setItem("supportTickets", JSON.stringify(tickets));
+            alert("✅ Reply sent to " + tickets[idx].userName + "!");
+            loadTickets(); // Refresh
         }
+    }
 
-        /* =========================
-           ✅ INIT LOAD
-        ========================= */
-        loadUsers();
-        loadDrivers();
-
-    </script>
-
+    loadDashboard();
+</script>
 </body>
-
 </html>

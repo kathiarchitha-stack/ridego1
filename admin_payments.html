@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideGo Admin - Payments</title>
+
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+body{ display:flex; background:#0f172a; color:#e5e7eb; min-height: 100vh; }
+.sidebar{ width:250px; background:#020617; padding:20px; height:100vh; position: sticky; top: 0; }
+.sidebar h2{ color:#38bdf8; margin-bottom:20px; }
+.sidebar button{ width:100%; padding:12px; background:#38bdf8; border:none; color:#000; border-radius:8px; margin-bottom:20px; font-weight: 600; cursor:pointer; }
+.menu{ list-style:none; }
+.menu li{ padding:12px 15px; border-radius:8px; margin-bottom:8px; cursor:pointer; font-weight: 500; }
+.menu li.active { background: #1e293b; color: #38bdf8; }
+.menu li:hover:not(.active){ background:#1e293b; }
+.main{ flex:1; padding:30px 40px; }
+.header{ font-size:26px; font-weight:600; margin-bottom:30px; }
+.cards{ display:flex; gap:20px; margin-bottom:30px; }
+.card{ flex:1; background:#1e293b; padding:25px; border-radius:12px; border: 1px solid rgba(255,255,255,0.05); }
+.card h3{ margin-bottom:10px; color: #94a3b8; font-size: 15px; text-transform: uppercase; }
+.card .value { font-size: 32px; font-weight: 700; color: #38bdf8; }
+.table-container { background: #020617; border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); }
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding:15px; text-align:left; }
+th{ background:#1e293b; color: #94a3b8; font-size: 13px; text-transform: uppercase; }
+tr{ border-bottom:1px solid rgba(255,255,255,0.05); }
+.status{ padding:6px 12px; border-radius:6px; font-size:12px; font-weight: 600; }
+.completed{ background:rgba(22, 163, 74, 0.2); color: #4ade80; }
+</style>
+</head>
+
+<body>
+<div class="sidebar">
+    <h2 style="display:flex; align-items:center; gap:10px; justify-content:center;"><img src="logo.png" alt="Logo" style="height:35px; width:35px; border-radius:50%;"> RideGo Admin</h2>
+    <button>+ Request Payout</button>
+    <ul class="menu">
+        <li onclick="window.location.href='admin.html'">🏠 Home</li>
+        <li onclick="window.location.href='admin_rides.html'">🚗 Rides</li>
+        <li class="active" onclick="window.location.href='admin_payments.html'">💳 Payments</li>
+        <li onclick="window.location.href='admin_drivers.html'">👤 Drivers</li>
+    </ul>
+</div>
+
+<div class="main">
+    <div class="header">Payments & Revenue</div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Total Revenue Collected</h3>
+            <div class="value" id="totRev">₹0</div>
+        </div>
+        <div class="card">
+            <h3>Total Completed Txns</h3>
+            <div class="value" id="totTxn">0</div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h3>Transaction History</h3>
+        <table style="margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th>Txn ID</th>
+                    <th>Customer</th>
+                    <th>Driver Payee</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function loadPayments() {
+        let allBookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+        
+        let validBookings = allBookings.filter(b => b.status === "accepted" || b.status === "completed" || b.status === "pending");
+        
+        // Revenue calculations
+        let revenue = validBookings.reduce((sum, b) => sum + (parseInt(b.amount) || 0), 0);
+        document.getElementById("totRev").innerText = "₹" + revenue;
+        document.getElementById("totTxn").innerText = validBookings.length;
+
+        let tbody = document.getElementById("tableBody");
+        if(validBookings.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:30px;">No transactions found.</td></tr>`;
+            return;
+        }
+
+        let html = "";
+        validBookings.reverse().forEach(b => {
+            html += `<tr>
+                <td style="color:#64748b; font-size:12px;">${b.txnId || "TXN-XXX"}</td>
+                <td style="color:#f8fafc; font-weight:600;">${b.customerName || "Customer"}</td>
+                <td>${b.driver || "Unassigned"}</td>
+                <td style="color:#4ade80; font-weight:600;">₹${b.amount || 0}</td>
+                <td><span class="status completed">Success</span></td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    loadPayments();
+</script>
+</body>
+</html>

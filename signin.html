@@ -199,7 +199,7 @@
 
     <div class="login-box">
         <div class="logo">
-            <div class="logo-icon">🚗</div>
+            <div class="logo-icon" style="background:transparent; box-shadow:none;"><img src="logo.png" alt="Logo" style="height:100%; width:100%; object-fit:contain; border-radius:50%;"></div>
             <h2>Drivers Connect</h2>
             <p>Sign in to your account</p>
         </div>
@@ -269,6 +269,7 @@
             /* ---- ADMIN CHECK ---- */
            if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASS){
                 localStorage.setItem("user", JSON.stringify({ name: "Admin", email: ADMIN_EMAIL, type: "admin" }));
+                localStorage.setItem("loggedUser", JSON.stringify({ name: "Admin", email: ADMIN_EMAIL, type: "admin" }));
                 welcomeEl.innerText = "✅ Welcome Admin! Redirecting...";
                 welcomeEl.style.display = "block";
                 setTimeout(() => window.location.href = "admin.html", 1200);
@@ -281,6 +282,7 @@
 
             if (user) {
                 localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("loggedUser", JSON.stringify(user));
 
                 /* If driver → mark as active */
                 if (user.type === "driver") {
@@ -304,7 +306,13 @@
 
                 setTimeout(() => {
                     if (user.type === "driver") {
-                        window.location.href = "customerssearch.html";
+                        // New drivers (not yet submitted profile) go to login1.html (driver setup)
+                        // Returning drivers (already submitted) go directly to customerssearch.html
+                        if (!user.isProfileComplete) {
+                            window.location.href = "login1.html";
+                        } else {
+                            window.location.href = "customerssearch.html";
+                        }
                     } else {
                         window.location.href = "driversearch.html";
                     }

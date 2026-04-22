@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideGo Admin - Drivers</title>
+
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+body{ display:flex; background:#0f172a; color:#e5e7eb; min-height: 100vh; }
+.sidebar{ width:250px; background:#020617; padding:20px; height:100vh; position: sticky; top: 0; }
+.sidebar h2{ color:#38bdf8; margin-bottom:20px; }
+.sidebar button{ width:100%; padding:12px; background:#38bdf8; border:none; color:#000; border-radius:8px; margin-bottom:20px; font-weight: 600; cursor:pointer; }
+.menu{ list-style:none; }
+.menu li{ padding:12px 15px; border-radius:8px; margin-bottom:8px; cursor:pointer; font-weight: 500; }
+.menu li.active { background: #1e293b; color: #38bdf8; }
+.menu li:hover:not(.active){ background:#1e293b; }
+.main{ flex:1; padding:30px 40px; }
+.header{ font-size:26px; font-weight:600; margin-bottom:30px; }
+.search-bar{ display:flex; gap:10px; margin-bottom:20px; }
+.search-bar input{ flex:1; padding:12px 15px; border:none; border-radius:8px; background:#020617; color:#fff; border: 1px solid rgba(255,255,255,0.05); }
+.search-bar button{ padding:10px 25px; border:none; background:#38bdf8; color: #000; font-weight: 600; border-radius:8px; cursor:pointer; }
+.table-container { background: #020617; border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); }
+table{ width:100%; border-collapse:collapse; }
+th, td{ padding:15px; text-align:left; }
+th{ background:#1e293b; color: #94a3b8; font-size: 13px; text-transform: uppercase; }
+tr{ border-bottom:1px solid rgba(255,255,255,0.05); }
+.status{ padding:6px 12px; border-radius:6px; font-size:12px; font-weight: 600; }
+.completed{ background:rgba(22, 163, 74, 0.2); color: #4ade80; }
+.pending{ background:rgba(245, 158, 11, 0.2); color: #fbbf24; }
+.verify-btn { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; background:#38bdf8; color:black; font-weight:600; font-size:12px; }
+.verify-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+
+<body>
+<div class="sidebar">
+    <h2 style="display:flex; align-items:center; gap:10px; justify-content:center;"><img src="logo.png" alt="Logo" style="height:35px; width:35px; border-radius:50%;"> RideGo Admin</h2>
+    <button>+ Add Driver</button>
+    <ul class="menu">
+        <li onclick="window.location.href='admin.html'">🏠 Home</li>
+        <li onclick="window.location.href='admin_rides.html'">🚗 Rides</li>
+        <li onclick="window.location.href='admin_payments.html'">💳 Payments</li>
+        <li class="active" onclick="window.location.href='admin_drivers.html'">👤 Drivers</li>
+    </ul>
+</div>
+
+<div class="main">
+    <div class="header">Manage Drivers</div>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by Driver Name or Phone...">
+        <button onclick="searchDriver()">Search</button>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Driver Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Vehicle</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function loadDrivers() {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let defaultDrivers = [
+            { name: "Vikram Adityan", phone: "+91 9999999990", vehicle: "Mercedes-Benz", isActive: true, isVerified: true, email: "vikram@example.com" },
+            { name: "Rajesh Kumar", phone: "+91 9999999991", vehicle: "Toyota Innova", isActive: true, isVerified: true, email: "rajesh@example.com" }
+        ];
+
+        let registeredDrivers = users.filter(u => u.type === "driver");
+        let allDrivers = [...defaultDrivers, ...registeredDrivers];
+
+        let tbody = document.getElementById("tableBody");
+        if(allDrivers.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px;">No drivers found.</td></tr>`;
+            return;
+        }
+
+        let html = "";
+        allDrivers.forEach((d) => {
+            let isVerified = d.isVerified;
+            let statusBadge = isVerified ? '<span class="status completed">Verified</span>' : '<span class="status pending">Pending</span>';
+            let actionBtn = isVerified ? '<span style="color:#94a3b8; font-size:12px;">No Action</span>' : `<button class="verify-btn" onclick="verifyDriver('${d.email}')">Verify</button>`;
+
+            html += `<tr>
+                <td style="color:#f8fafc; font-weight:600;">${d.name || "Unknown"}</td>
+                <td>${d.email || d.upi || "-"}</td>
+                <td>${d.phone || "-"}</td>
+                <td>${d.vehicle || d.car || "-"}</td>
+                <td>${statusBadge}</td>
+                <td>${actionBtn}</td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function verifyDriver(email) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let idx = users.findIndex(u => u.email === email);
+        if (idx !== -1) {
+            users[idx].isVerified = true;
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("✅ Driver successfully verified!");
+            loadDrivers(); // Reload table
+        } else {
+            alert("This is a mock default driver. They are already inherently verified.");
+        }
+    }
+
+    function searchDriver(){
+        let input = document.getElementById("searchInput").value.toLowerCase();
+        let rows = document.querySelectorAll("#tableBody tr");
+        rows.forEach(row=>{
+            let text = row.innerText.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+
+    loadDrivers();
+</script>
+</body>
+</html>

@@ -1,294 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirm Booking - Drivers Connect</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Booking - Drivers Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-body {
-    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-    background-size: 200% 200%;
-    animation: bgPan 10s ease infinite;
-    color: #f8fafc;
-    min-height: 100vh;
-}
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            background-size: 200% 200%;
+            animation: bgPan 10s ease infinite;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
 
-@keyframes bgPan {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+        @keyframes bgPan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-.header {
-    background: rgba(15,23,42,0.7);
-    backdrop-filter: blur(15px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: sticky; top: 0; z-index: 100;
-}
+        .header {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
 
-.left-header { display: flex; align-items: center; gap: 15px; }
+        .left-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.back-btn {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 15px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s;
-}
-.back-btn:hover { background: rgba(255,255,255,0.2); }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-.logo {
-    width: 45px; height: 45px;
-    background: linear-gradient(135deg, #38bdf8, #818cf8);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 0 15px rgba(56,189,248,0.4);
-}
+        .profile-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
 
-.profile-btn {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 14px;
-    font-weight: 600;
-}
-.profile-btn:hover { background: rgba(255,255,255,0.2); }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 30px auto 50px;
+        }
 
-.container {
-    width: 90%; max-width: 600px;
-    margin: 30px auto 50px;
-}
+        .section-title {
+            font-size: 26px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
 
-.section-title { font-size: 26px; margin-bottom: 25px; font-weight: 700; }
+        .card {
+            background: rgba(30, 41, 59, 0.75);
+            padding: 28px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+        }
 
-.card {
-    background: rgba(30,41,59,0.75);
-    backdrop-filter: blur(20px);
-    padding: 28px;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 22px;
-}
+        .driver-info-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.driver-info-section { display: flex; align-items: center; gap: 15px; }
+        .driver-img {
+            width: 65px;
+            height: 65px;
+            border-radius: 16px;
+            object-fit: cover;
+        }
 
-.driver-img {
-    width: 65px; height: 65px;
-    border-radius: 16px;
-    object-fit: cover;
-    border: 2px solid #38bdf8;
-}
+        .driver-name-txt {
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
 
-.driver-name-txt { font-weight: 700; font-size: 20px; margin-bottom: 5px; }
-.rate-txt { font-size: 15px; color: #38bdf8; }
-.meta-txt { font-size: 13px; color: #94a3b8; margin-top: 3px; }
+        .rate-txt {
+            font-size: 15px;
+            color: #38bdf8;
+        }
 
-h3 { margin-bottom: 18px; font-size: 17px; color: #f8fafc; font-weight: 600; }
+        .trip-row {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.trip-row { margin-bottom: 12px; color: #cbd5e1; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
 
-.payment-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: #cbd5e1; font-size: 15px; }
+        .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 20px;
+            margin-top: 18px;
+        }
 
-.total {
-    display: flex; justify-content: space-between;
-    font-weight: 700; font-size: 20px;
-    margin-top: 18px; padding-top: 18px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-.total span:last-child { color: #38bdf8; }
+        .confirm-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
 
-.warning {
-    margin-top: 18px;
-    background: rgba(234,179,8,0.1);
-    border: 1px solid rgba(234,179,8,0.3);
-    padding: 14px; border-radius: 12px;
-    font-size: 14px; color: #fde047;
-    display: flex; gap: 10px; align-items: center;
-}
+        /* Waiting overlay */
+        .waiting-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-.confirm-btn {
-    width: 100%; padding: 18px;
-    background: linear-gradient(135deg, #38bdf8, #818cf8);
-    color: white; border: none;
-    border-radius: 16px; font-size: 18px; font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(56,189,248,0.35);
-    transition: all 0.3s;
-}
-.confirm-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(56,189,248,0.5); }
-.confirm-btn:disabled { background: #374151; cursor: not-allowed; box-shadow: none; }
+        .waiting-overlay.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 70px; height: 70px;
+            border: 5px solid rgba(56,189,248,0.2);
+            border-top: 5px solid #38bdf8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
 
-/* Waiting overlay */
-.waiting-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(8px);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-}
-.waiting-overlay.active { display: flex; }
-
-.spinner {
-    width: 70px; height: 70px;
-    border: 5px solid rgba(56,189,248,0.2);
-    border-top: 5px solid #38bdf8;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.waiting-txt { color: white; font-size: 18px; font-weight: 600; text-align: center; }
-.waiting-sub { color: #94a3b8; font-size: 14px; }
-</style>
 </head>
+
 <body>
 
-<!-- Waiting Overlay -->
-<div class="waiting-overlay" id="waitingOverlay">
-    <div class="spinner"></div>
-    <div class="waiting-txt">Sending Request to Driver...</div>
-    <div class="waiting-sub">Please wait while the driver responds</div>
-</div>
-
-<div class="header">
-    <div class="left-header">
-        <button class="back-btn" onclick="history.back()">←</button>
-        <div class="logo">🚗</div>
+    <div class="waiting-overlay" id="waitingOverlay">
+        <div class="spinner"></div>
+        <div style="font-size: 20px; font-weight: 600;">⏳ Sending Request...</div>
     </div>
-    <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
-</div>
 
-<div class="container">
-    <div class="section-title">Confirm Booking</div>
+    <div class="header">
+        <div class="left-header">
+            <button class="back-btn" onclick="history.back()">←</button>
+        </div>
+        <button class="profile-btn" onclick="window.location.href='profile.html'">👤 Profile</button>
+    </div>
 
-    <!-- Driver Info -->
-    <div class="card">
-        <div class="driver-info-section">
-            <img id="driverImg" src="https://randomuser.me/api/portraits/men/32.jpg" class="driver-img" alt="Driver">
-            <div>
-                <div class="driver-name-txt" id="driverName">Driver Name</div>
-                <div class="rate-txt" id="rateDisplay">₹0/hour</div>
-                <div class="meta-txt" id="driverMeta"></div>
+    <div class="container">
+        <div class="section-title">Confirm Booking</div>
+
+        <!-- Driver Info -->
+        <div class="card">
+            <div class="driver-info-section">
+                <img id="driverImg" src="https://randomuser.me/api/portraits/men/32.jpg" class="driver-img">
+                <div>
+                    <div class="driver-name-txt" id="driverName">Driver Name</div>
+                    <div class="rate-txt" id="rateDisplay">₹0/hour</div>
+                </div>
             </div>
         </div>
+
+        <!-- Trip Details -->
+        <div class="card">
+            <div class="trip-row" id="pickupDisplay">📍 Pickup</div>
+            <div class="trip-row" id="dropDisplay">📌 Drop</div>
+            <div class="trip-row" id="dateTimeDisplay"></div>
+        </div>
+
+        <!-- Payment -->
+        <div class="card">
+            <div class="payment-row">
+                <span>Rate per hour</span>
+                <span id="rateValue">₹0</span>
+            </div>
+            <div class="payment-row">
+                <span>Estimated trip</span>
+                <span id="hoursValue"></span>
+            </div>
+            <div class="total">
+                <span>Total Amount</span>
+                <span id="totalAmount">₹0</span>
+            </div>
+        </div>
+
+        <button class="confirm-btn" onclick="confirmBooking()">✔ Confirm Booking</button>
+
     </div>
 
-    <!-- Trip Details -->
-    <div class="card">
-        <h3>Trip Details</h3>
-        <div class="trip-row" id="pickupDisplay">📍 Pickup Location</div>
-        <div class="trip-row" id="dropDisplay">📌 Drop Location</div>
-        <div class="trip-row" id="dateTimeDisplay">📅 Date | ⏰ Time</div>
-    </div>
+    <script>
+        let ratePerHour = 150;
+        let estimatedHours = 0;
+        let distanceKm = 0;
 
-    <!-- Payment Summary -->
-    <div class="card">
-        <h3>Payment Summary</h3>
-        <div class="payment-row">
-            <span>Rate per hour</span>
-            <span id="rateValue">₹0</span>
-        </div>
-        <div class="payment-row">
-            <span>Estimated hours</span>
-            <span id="hoursValue">2 hrs</span>
-        </div>
-        <div class="total">
-            <span>Total Amount</span>
-            <span id="totalAmount">₹0</span>
-        </div>
-        <div class="warning">
-            <span>⚠</span> Payment will be required after the driver accepts your request.
-        </div>
-    </div>
-
-    <!-- Confirm Button -->
-    <button class="confirm-btn" id="confirmBtn" onclick="confirmBooking()">
-        ✔ Confirm Booking Request
-    </button>
-</div>
-
-<script>
-let ratePerHour   = 150;
-let estimatedHours = 2;
-
-function loadDriverDetails() {
-    let driver = JSON.parse(localStorage.getItem("selectedDriver"));
-    let pickup = localStorage.getItem("pickupLocation");
-    let drop   = localStorage.getItem("dropLocation");
-
-    if (driver) {
-        document.getElementById("driverName").innerText  = driver.name;
-        document.getElementById("driverImg").src         = driver.image || "https://randomuser.me/api/portraits/men/32.jpg";
-        ratePerHour = driver.rate;
-
-        let meta = [];
-        if (driver.car)    meta.push("🚗 " + driver.car);
-        if (driver.rating) meta.push("⭐ " + driver.rating);
-        if (driver.exp)    meta.push("🎖 " + driver.exp);
-        document.getElementById("driverMeta").innerText = meta.join("  ");
-    }
-
-    if (pickup) document.getElementById("pickupDisplay").innerText = "📍 " + pickup;
-    if (drop)   document.getElementById("dropDisplay").innerText   = "📌 " + drop;
-
-    let now  = new Date();
-    document.getElementById("dateTimeDisplay").innerText = "📅 " + now.toLocaleDateString("en-IN") + "  ⏰ " + now.toLocaleTimeString("en-IN");
-
-    calculateTotal();
-}
-
-function calculateTotal() {
-    let total = ratePerHour * estimatedHours;
-    document.getElementById("rateDisplay").innerText  = "₹" + ratePerHour + "/hour";
-    document.getElementById("rateValue").innerText    = "₹" + ratePerHour;
-    document.getElementById("hoursValue").innerText   = estimatedHours + " hrs";
-    document.getElementById("totalAmount").innerText  = "₹" + total;
-}
-
-function confirmBooking() {
-    const btn = document.getElementById("confirmBtn");
-    btn.disabled = true;
-    btn.innerText = "⏳ Sending Request...";
-
-    /* Show waiting overlay */
-    document.getElementById("waitingOverlay").classList.add("active");
-
-    /* Random 65% accept / 35% reject */
-    const isAccepted = Math.random() < 0.65;
-
-    setTimeout(() => {
-        document.getElementById("waitingOverlay").classList.remove("active");
-        if (isAccepted) {
-            window.location.href = "requestaccepted.html";
-        } else {
-            window.location.href = "requestrejected.html";
+        // Custom function to create a pseudo-random hash from strings
+        function hashCode(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                let char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
         }
-    }, 4000);
-}
 
-loadDriverDetails();
-</script>
+        // Simulating Google Maps Distance & Time calculations
+        function calculateDistanceAndTime(pickupLoc, dropLoc) {
+            if (!pickupLoc || !dropLoc) {
+                distanceKm = 10; // default
+                estimatedHours = 1;
+                return;
+            }
+            
+            // Generate a consistent pseudo-random number based on the locations to "simulate" a map route
+            let combined = pickupLoc.toLowerCase() + dropLoc.toLowerCase();
+            let routeSeed = hashCode(combined);
+            
+            // Ensure distance is between 5 and 65 km
+            distanceKm = (routeSeed % 60) + 5;
+            
+            // Assume an average driving speed of 35 km/hr in traffic
+            estimatedHours = distanceKm / 35;
+            
+            // Round to 1 decimal place (e.g. 1.2 hrs)
+            estimatedHours = Math.round(estimatedHours * 10) / 10;
+            
+            // Ensure a minimum of 1 hour for short trips as a standard baseline
+            if (estimatedHours < 1) {
+                estimatedHours = 1;
+            }
+        }
+
+        function loadDriverDetails() {
+            let driver = JSON.parse(localStorage.getItem("selectedDriver"));
+            let pickup = localStorage.getItem("pickupLocation") || "";
+            let drop = localStorage.getItem("dropLocation") || "";
+
+            if (driver) {
+                document.getElementById("driverName").innerText = driver.name;
+                if(driver.image) document.getElementById("driverImg").src = driver.image;
+                ratePerHour = driver.rate || parseInt(driver.price); 
+            }
+
+            if (pickup) document.getElementById("pickupDisplay").innerText = "📍 " + pickup;
+            if (drop) document.getElementById("dropDisplay").innerText = "📌 " + drop;
+
+            let now = new Date();
+            document.getElementById("dateTimeDisplay").innerText =
+                "📅 " + now.toLocaleDateString() + " ⏰ " + now.toLocaleTimeString();
+
+            // Calculate "Google Map" routed distance and time dynamically
+            calculateDistanceAndTime(pickup, drop);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = Math.round(ratePerHour * estimatedHours);
+
+            document.getElementById("rateDisplay").innerText = "₹" + ratePerHour + "/hour";
+            document.getElementById("rateValue").innerText = "₹" + ratePerHour;
+            document.getElementById("hoursValue").innerText =
+                estimatedHours + " hrs (" + distanceKm + " km)";
+            document.getElementById("totalAmount").innerText = "₹" + total;
+        }
+
+        function confirmBooking() {
+            document.getElementById("waitingOverlay").classList.add("active");
+
+            // Random 65% accept / 35% reject as requested
+            const isAccepted = Math.random() < 0.65;
+            
+            // We still store a booking record before randomly determining outcome
+            let allBookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+            let driver = JSON.parse(localStorage.getItem("selectedDriver"));
+            let pickup = localStorage.getItem("pickupLocation");
+            let drop = localStorage.getItem("dropLocation");
+            let loggedCustomer = JSON.parse(localStorage.getItem("loggedUser")) || {};
+            
+            let booking = {
+                txnId: "TXN-" + Math.random().toString(36).substr(2, 8).toUpperCase(),
+                customerName: loggedCustomer.name || "Guest Customer",
+                driver: driver ? driver.name : "Unknown",
+                pickup: pickup,
+                drop: drop,
+                date: new Date().toLocaleDateString("en-IN"),
+                amount: Math.round(ratePerHour * estimatedHours),
+                status: isAccepted ? "accepted" : "rejected"
+            };
+            allBookings.push(booking);
+            localStorage.setItem("userBookings", JSON.stringify(allBookings));
+
+            setTimeout(() => {
+                document.getElementById("waitingOverlay").classList.remove("active");
+                if (isAccepted) {
+                    window.location.href = "requestaccepted.html";
+                } else {
+                    window.location.href = "requestrejected.html";
+                }
+            }, 3000);
+        }
+
+        loadDriverDetails();
+    </script>
 
 </body>
 </html>

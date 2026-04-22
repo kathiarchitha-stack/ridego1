@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Received - Drivers Connect</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
     <style>
         * {
             margin: 0;
@@ -167,26 +169,6 @@
             letter-spacing: 1px;
         }
 
-        .booking-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
-            transition: all 0.3s;
-            margin-top: 5px;
-        }
-
-        .booking-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.5);
-        }
-
         .home-btn {
             width: 100%;
             padding: 14px;
@@ -211,6 +193,7 @@
 <body>
 
     <div class="container">
+
         <div class="success-icon">✔</div>
 
         <h2>Payment Received!</h2>
@@ -224,36 +207,70 @@
         </div>
 
         <div class="details-card">
-            <div class="detail-row"><span class="lbl">Driver</span><span class="val" id="driverDisp">-</span></div>
-            <div class="detail-row"><span class="lbl">Pickup</span><span class="val" id="pickupDisp">-</span></div>
-            <div class="detail-row"><span class="lbl">Drop</span><span class="val" id="dropDisp">-</span></div>
-            <div class="detail-row"><span class="lbl">Date & Time</span><span class="val" id="dtDisp">-</span></div>
-            <div class="detail-row"><span class="lbl">Duration</span><span class="val">2 hours</span></div>
-            <div class="detail-row"><span class="lbl">Status</span><span class="val" style="color:#4ade80;">✅
-                    Paid</span></div>
+
+            <div class="detail-row">
+                <span class="lbl">Driver</span>
+                <span class="val" id="driverDisp">-</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="lbl">Pickup</span>
+                <span class="val" id="pickupDisp">-</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="lbl">Drop</span>
+                <span class="val" id="dropDisp">-</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="lbl">Date & Time</span>
+                <span class="val" id="dtDisp">-</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="lbl">Duration</span>
+                <span class="val">2 hours</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="lbl">Status</span>
+                <span class="val" style="color:#4ade80;">✅ Paid</span>
+            </div>
+
         </div>
 
-        <button class="home-btn" onclick="window.location.href='customerssearch.html'">back </button>
+        <button class="home-btn" onclick="window.location.href='customerssearch.html'">back</button>
+
     </div>
 
     <script>
-        function generateTxnId() {
-            return "TXN-" + Math.random().toString(36).substr(2, 4).toUpperCase()
-                + "-" + Math.random().toString(36).substr(2, 8).toUpperCase();
-        }
+
+        /* LOAD CORRECT BOOKING DETAILS */
 
         function loadDetails() {
-            /* Try getting data from userBookings last entry */
-            let bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
-            let last = bookings.length > 0 ? bookings[bookings.length - 1] : null;
 
-            let txnId = last?.txnId || generateTxnId();
-            let amount = last?.amount || "0";
-            let driver = last?.driver || "-";
-            let pickup = last?.pickup || "-";
-            let drop = last?.drop || "-";
-            let date = last?.date || new Date().toLocaleDateString("en-IN");
-            let time = last?.time || new Date().toLocaleTimeString("en-IN");
+            let txnId = localStorage.getItem("lastTxnId");
+            let amount = localStorage.getItem("lastAmount");
+            let driver = localStorage.getItem("lastDriver");
+
+            let pickup = localStorage.getItem("pickupLocation");
+            let drop = localStorage.getItem("dropLocation");
+
+            /* fallback values if missing */
+
+            if (!txnId) {
+                txnId = "TXN-" + Math.random().toString(36).substr(2, 4).toUpperCase() + "-" + Math.random().toString(36).substr(2, 8).toUpperCase();
+            }
+
+            if (!amount) { amount = "0"; }
+            if (!driver) { driver = "-"; }
+            if (!pickup) { pickup = "-"; }
+            if (!drop) { drop = "-"; }
+
+            let now = new Date();
+            let date = now.toLocaleDateString("en-IN");
+            let time = now.toLocaleTimeString("en-IN");
 
             document.getElementById("amountDisp").innerText = "₹" + amount;
             document.getElementById("txnIdDisp").innerText = txnId;
@@ -261,9 +278,11 @@
             document.getElementById("pickupDisp").innerText = pickup;
             document.getElementById("dropDisp").innerText = drop;
             document.getElementById("dtDisp").innerText = date + " • " + time;
+
         }
 
         loadDetails();
+
     </script>
 
 </body>

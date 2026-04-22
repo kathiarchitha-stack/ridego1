@@ -165,7 +165,7 @@ body {
 
 <div class="header">
     <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
-    <div class="logo">🚗</div>
+    <div class="logo" style="background:transparent; box-shadow:none;"><img src="logo.png" alt="Logo" style="height:100%; width:100%; object-fit:contain; border-radius:50%;"></div>
     <div style="width:70px;"></div>
 </div>
 
@@ -176,9 +176,15 @@ body {
 <script>
 const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
 
+function driverHome() {
+    // Returning drivers (profile submitted) go to requests; new drivers go to setup
+    if (loggedUser && loggedUser.isProfileComplete) return "customerssearch.html";
+    return "login1.html";
+}
+
 function goBack() {
     if (!loggedUser) { window.location.href = "signin.html"; return; }
-    if (loggedUser.type === "driver")  window.location.href = "login1.html";
+    if (loggedUser.type === "driver")  window.location.href = driverHome();
     else if (loggedUser.type === "admin") window.location.href = "admin.html";
     else window.location.href = "driversearch.html";
 }
@@ -233,13 +239,23 @@ function renderProfile() {
     }
     if (fullUser.joinDate) extraFields += `<div class="detail-item"><div class="lbl">Member Since</div><div class="val">📅 ${fullUser.joinDate}</div></div>`;
 
-    let homeLink = fullUser.type === "driver" ? "login1.html" : "driversearch.html";
+    let homeLink = fullUser.type === "driver" ? driverHome() : (fullUser.type === "admin" ? "admin.html" : "driversearch.html");
 
     content.innerHTML = `
     <div class="profile-card">
         <div class="profile-top">
             <div class="profile-left">
-                <img src="${photoSrc}" alt="Profile" class="profile-photo" id="profilePhoto">
+                <div style="position:relative; display:inline-block;">
+                    <img src="${photoSrc}" alt="Profile" class="profile-photo" id="profilePhoto">
+                    <label for="photoUpload" title="Change photo" style="
+                        position:absolute; bottom:0; right:0;
+                        background: linear-gradient(135deg,#38bdf8,#818cf8);
+                        border-radius:50%; width:28px; height:28px;
+                        display:flex; align-items:center; justify-content:center;
+                        cursor:pointer; font-size:13px; box-shadow:0 2px 8px rgba(0,0,0,0.3);
+                        border: 2px solid #0f172a;">📷</label>
+                    <input type="file" id="photoUpload" accept="image/*" style="display:none;" onchange="uploadPhoto(this)">
+                </div>
                 <div class="profile-info">
                     <h3 id="profileName">${fullUser.name || "User"}</h3>
                     <p id="profileEmail">${fullUser.email || ""}</p>
@@ -285,6 +301,28 @@ function renderProfile() {
     </div>
 
     <div class="signout" onclick="signOut()">⤴ Sign Out</div>`;
+}
+
+function uploadPhoto(input) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const base64 = e.target.result;
+        // Update the displayed photo immediately
+        document.getElementById("profilePhoto").src = base64;
+        // Save to localStorage
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let idx = users.findIndex(u => u.email === loggedUser.email);
+        if (idx !== -1) {
+            users[idx].image = base64;
+            localStorage.setItem("users", JSON.stringify(users));
+        }
+        // Update loggedUser
+        loggedUser.image = base64;
+        localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    };
+    reader.readAsDataURL(file);
 }
 
 renderProfile();

@@ -283,7 +283,7 @@
     <!-- HEADER -->
     <div class="header">
         <div class="header-logo">
-            <div class="logo-icon">🚗</div>
+            <div class="logo-icon" style="background:transparent; box-shadow:none;"><img src="logo.png" alt="Logo" style="height:100%; width:100%; object-fit:contain; border-radius:50%;"></div>
             <div>
                 <div class="logo-text">Driver Dashboard</div>
                 <div class="logo-sub">Drivers Connect</div>
@@ -412,6 +412,10 @@
                 </div>
             </div>
         </div>
+
+        <button class="action-btn" style="width: 100%; text-align: center; background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; padding: 18px; border-radius: 18px; margin-top: 10px; font-weight: 700; font-size: 16px; box-shadow: 0 10px 25px rgba(56,189,248,0.3); border: none;" onclick="submitToAdmin()">
+            Submit Details to Admin & View Requests ➤
+        </button>
     </div>
 
     <script>
@@ -489,6 +493,23 @@
                 let fname = input.files[0].name;
                 document.getElementById(type + "-status").innerText = "✅ Uploaded: " + fname;
             }
+        }
+
+        /* ===== Wait logic for Submit to Admin ===== */
+        function submitToAdmin() {
+            alert("✅ Your driver details and documents have been submitted to the Admin for verification!");
+            
+            // Mark this driver's profile as complete so future logins skip this setup page
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            let idx = users.findIndex(u => u.email === loggedUser.email);
+            if (idx !== -1) {
+                users[idx].isProfileComplete = true;
+                localStorage.setItem("users", JSON.stringify(users));
+                // Update loggedUser session too
+                loggedUser.isProfileComplete = true;
+                localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+            }
+            window.location.href = "customerssearch.html";
         }
 
         /* ===== Sign Out ===== */
